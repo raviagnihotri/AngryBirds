@@ -20,9 +20,9 @@ Siden fuglene skal følge en bane fra sprettert til gris, må det ligge noe mate
 ##Omfang
 
 Grunnet tid og kompleksitet må vi sette grenser på spillets kompleksitet. Vi har kommet på følgende avgrensninger:
-- Tre hardkodede fugler med ulike parametere (vekt, flyvedyktighet, etc)
-- Tre brett
-- ?
+- 3-4 hardkodede fugler med ulike parametere (vekt, flyvedyktighet, etc)
+- Ett brett(kanskje to brett)
+- Sette hastighet og/eller vinkel ved inntasting fra brukeren.
 
 Dersom programmeringen går noenlunde smertefritt, vil vi se på muligheten til å:
 - opprette en egen fugl med egne parametere
