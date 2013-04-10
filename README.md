@@ -17,6 +17,8 @@ har vært borti dette før, så bare dette er en utfordring i seg selv. Som føl
 Siden fuglene skal følge en bane fra sprettert til gris, må det ligge noe matematikk bak for å kalkulere banen. Vi kommer til 
 å bruke matematikkbiblioteket for å kunne bruke trigonometriske formler osv.
 
+Noen sketsjer/forslag til GUIet ligger vedlagt i mappa *Gui_eksempel*.
+
 ##Omfang
 
 Grunnet tid og kompleksitet må vi sette grenser på spillets kompleksitet. Vi har kommet på følgende avgrensninger:
