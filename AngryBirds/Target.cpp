@@ -1,8 +1,8 @@
 #include "Target.h"
 
-Target::Target()
+Target::Target(int t)
 {
-    //ctor
+    antTargets = t;
 }
 
 Target::~Target()

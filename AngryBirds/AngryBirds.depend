@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1366658136 source:f:\dropbox\gitwork\angrybirds\angrybirds\bird.cpp
+1366743871 source:f:\dropbox\gitwork\angrybirds\angrybirds\bird.cpp
 	"Bird.h"
 
-1366658700 f:\dropbox\gitwork\angrybirds\angrybirds\bird.h
+1366742008 f:\dropbox\gitwork\angrybirds\angrybirds\bird.h
 
-1366662428 source:f:\dropbox\gitwork\angrybirds\angrybirds\game.cpp
+1366743255 source:f:\dropbox\gitwork\angrybirds\angrybirds\game.cpp
 	"Game.h"
 	"Stage.h"
 	<iostream>
@@ -15,13 +15,16 @@
 	<iostream>
 	"Game.h"
 
-1366658166 source:f:\dropbox\gitwork\angrybirds\angrybirds\stage.cpp
+1366743937 source:f:\dropbox\gitwork\angrybirds\angrybirds\stage.cpp
 	"Stage.h"
+	"Bird.h"
+	"Target.h"
+	<iostream>
 
-1366667784 f:\dropbox\gitwork\angrybirds\angrybirds\stage.h
+1366743632 f:\dropbox\gitwork\angrybirds\angrybirds\stage.h
 
-1366658178 source:f:\dropbox\gitwork\angrybirds\angrybirds\target.cpp
+1366744144 source:f:\dropbox\gitwork\angrybirds\angrybirds\target.cpp
 	"Target.h"
 
-1366659926 f:\dropbox\gitwork\angrybirds\angrybirds\target.h
+1366744136 f:\dropbox\gitwork\angrybirds\angrybirds\target.h
 

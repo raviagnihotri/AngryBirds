@@ -1,8 +1,20 @@
 #include "Bird.h"
 
-Bird::Bird()
+Bird::Bird(int w)
 {
-    //ctor
+    weight = w;
+}
+
+void Bird::setSpeed(int s){
+    speed = s;
+}
+
+int Bird::getSpeed(){
+    return speed;
+}
+
+int Bird::getWeight(){
+    return weight;
 }
 
 Bird::~Bird()

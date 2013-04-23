@@ -5,13 +5,16 @@
 class Bird
 {
     public:
-        Bird();
+        Bird(int);
         virtual ~Bird();
+        void setSpeed(int);
+        int getSpeed();
+        int getWeight();
     protected:
     private:
         int speed;
         int weight;
-        int graphic;
+        char graphic[3] = {'x', 'y', 'z'};
 };
 
 #endif // BIRD_H

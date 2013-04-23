@@ -5,12 +5,13 @@
 class Target
 {
     public:
-        Target();
+        Target(int ); //antTargets
         virtual ~Target();
     protected:
     private:
-        int healthPoints;
-        int graphic;
+        int antTargets;
+        const static int MAX_HP = 100;
+        char graphic[3] = {'a', 'b', 'c'};
 };
 
 #endif // TARGET_H

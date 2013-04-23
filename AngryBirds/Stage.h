@@ -5,13 +5,20 @@
 class Stage
 {
     public:
-        Stage();
+        Stage(int, int, float);  //birds,targets,gravity
+        int getBirds();
+        int getTargets();
+        float getGravity();
+
+        void settingsGame(); //speed, angle
         virtual ~Stage();
     protected:
     private:
-        int birds[];
-        int targets[];
-        int gravity;
+        int birds;
+        int targets;
+        float gravity;
+        int speed;
+        int angle;
 };
 
 #endif // STAGE_H
