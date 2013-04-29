@@ -2,6 +2,8 @@
 1366743871 source:f:\dropbox\gitwork\angrybirds\angrybirds\bird.cpp
 	"Bird.h"
 
+1366744144 
+
 1366742008 f:\dropbox\gitwork\angrybirds\angrybirds\bird.h
 
 1366743255 source:f:\dropbox\gitwork\angrybirds\angrybirds\game.cpp
@@ -27,4 +29,36 @@
 	"Target.h"
 
 1366744136 f:\dropbox\gitwork\angrybirds\angrybirds\target.h
+
+1367227553 source:/home/ravi/AngryBirds/AngryBirds/Bird.cpp
+	"Bird.h"
+
+1367227553 /home/ravi/AngryBirds/AngryBirds/Bird.h
+
+1367227553 source:/home/ravi/AngryBirds/AngryBirds/Game.cpp
+	"Game.h"
+	"Stage.h"
+	<iostream>
+
+1367227553 /home/ravi/AngryBirds/AngryBirds/Game.h
+
+1367227553 /home/ravi/AngryBirds/AngryBirds/Stage.h
+
+1367227553 source:/home/ravi/AngryBirds/AngryBirds/Stage.cpp
+	"Stage.h"
+	"Bird.h"
+	"Target.h"
+	<iostream>
+
+1367227553 /home/ravi/AngryBirds/AngryBirds/Target.h
+
+1367227553 source:/home/ravi/AngryBirds/AngryBirds/Target.cpp
+	"Target.h"
+
+1367241215 source:/home/ravi/AngryBirds/AngryBirds/main.cpp
+	<iostream>
+	<curses.h>
+	<string.h>
+	<unistd.h>
+	<time.h>
 
