@@ -1,5 +1,7 @@
 #ifndef FYSIKKMOTOR_H
 #define FYSIKKMOTOR_H
+#include <vector>
+using namespace std;
 
 
 class FysikkMotor
@@ -14,12 +16,18 @@ class FysikkMotor
         float getSpeed();
         float getAngle();
         float getHeight();
+        void setCoord_X(float);
+        void setCoord_Y(float);
+        float getCoord_X();
+        float getCoord_Y();
 
         float speed;
         float angle;
         float height;
         float totalDistance;
 
+        vector<float> vectorX;
+        vector<float> vectorY;
         void engine();
 //        int sinSpeed;
 //        int cosSpeed;
