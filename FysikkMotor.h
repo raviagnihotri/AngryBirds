@@ -14,6 +14,10 @@ class FysikkMotor
         float getSpeed();
         float getAngle();
         float getHeight();
+        void setCoord_X(float);
+        void setCoord_Y(float);
+        float getCoord_X();
+        float getCoord_Y();
 
         float speed;
         float angle;

@@ -35,6 +35,22 @@ float FysikkMotor::getHeight(){
     return height;
 }
 
+void FysikkMotor::setCoord_X(float x){
+    coord_X = x;
+}
+
+void FysikkMotor::setCoord_Y(float y){
+    coord_Y = y;
+}
+
+float FysikkMotor::getCoord_X(){
+    return coord_X;
+}
+
+float FysikkMotor::getCoord_Y(){
+    return coord_Y;
+}
+
 void FysikkMotor::engine(){
 
     angle = angle * (2 * 3.14 / 360);
@@ -46,10 +62,12 @@ void FysikkMotor::engine(){
         coord_Y = -0.5 * 9.81 * (time_X * time_X) + speed * sin(angle) * time_X;
 
         if(coord_Y > 0){
-//            cout << "(" << coord_X << ", " << coord_Y << ")" << endl;
-            mvwaddstr(top,coord_Y,coord_X,"..Mjau");
-            wrefresh(top);
-            sleep(1);
+            setCoord_X(coord_X);
+            setCoord_Y(coord_Y);
+//            cout << "(" << getCoord_X() << ", " << getCoord_Y() << ")" << endl;
+//            mvwaddstr(top,coord_Y,coord_X,"..Mjau");
+//            wrefresh(top);
+//            sleep(1);
         }
     }
 
