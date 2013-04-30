@@ -12,7 +12,7 @@ using namespace std;
 int main()
 {
     //Game gameObject;
-    FysikkMotor fysikk;
+    FysikkMotor fysikk(20,30,1);
 //    int row, col;
 //    noecho();
 //
