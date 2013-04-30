@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -62,8 +63,8 @@ void FysikkMotor::engine(){
         coord_Y = -0.5 * 9.81 * (time_X * time_X) + speed * sin(angle) * time_X;
 
         if(coord_Y > 0){
-            setCoord_X(coord_X);
-            setCoord_Y(coord_Y);
+            vectorX.push_back(coord_X);
+            vectorY.push_back(coord_Y);
 //            cout << "(" << getCoord_X() << ", " << getCoord_Y() << ")" << endl;
 //            mvwaddstr(top,coord_Y,coord_X,"..Mjau");
 //            wrefresh(top);
