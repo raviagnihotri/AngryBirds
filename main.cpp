@@ -5,12 +5,14 @@
 #include <time.h>
 #include <sstream>
 //#include "Game.h"
+#include "FysikkMotor.h"
 
 using namespace std;
 
 int main()
 {
     //Game gameObject;
+    FysikkMotor fysikk;
     initscr();
 
     int row, col, toprow, topcol, btmrow, btmcol;
@@ -101,5 +103,6 @@ int main()
     delwin(btm);
 
     endwin();
+
     return 0;
 }

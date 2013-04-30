@@ -37,6 +37,8 @@
 		</Linker>
 		<Unit filename="Bird.cpp" />
 		<Unit filename="Bird.h" />
+		<Unit filename="FysikkMotor.cpp" />
+		<Unit filename="FysikkMotor.h" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.h" />
 		<Unit filename="Stage.cpp" />
