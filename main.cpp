@@ -11,8 +11,7 @@ using namespace std;
 
 int main()
 {
-    //Game gameObject;
-    FysikkMotor fysikk;
+
     initscr();
 
     int row, col, toprow, topcol, btmrow, btmcol;
@@ -103,6 +102,8 @@ int main()
     delwin(btm);
 
     endwin();
+
+    FysikkMotor fysikk(20,30,1);
 
     return 0;
 }

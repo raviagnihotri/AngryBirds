@@ -5,8 +5,12 @@
 class FysikkMotor
 {
     public:
-        FysikkMotor();
+        FysikkMotor(float, float, float);
         virtual ~FysikkMotor();
+        float coord_X;
+        float coord_Y;
+        float time_Y;
+        float time_X;
         float getSpeed();
         float getAngle();
         float getHeight();
@@ -16,7 +20,7 @@ class FysikkMotor
         float height;
         float totalDistance;
 
-        void totalDistanceX();
+        void engine();
 //        int sinSpeed;
 //        int cosSpeed;
 //        int timeY;
