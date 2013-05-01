@@ -4,14 +4,15 @@
 
 class Game
 {
+    private:
+        void initLogo();
+        void initScreen();
+        void welcomeScr();
+        void userInput();
+        void startStage(int i);
     public:
         Game();
         virtual ~Game();
-        void welcomeScr();
-        void initScreen();
-        void userInput();
-    protected:
-    private:
 };
 
 #endif // GAME_H

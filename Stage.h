@@ -1,6 +1,7 @@
 #ifndef STAGE_H
 #define STAGE_H
 #include <vector>
+#include <string>
 using namespace std;
 
 class Stage
@@ -12,7 +13,7 @@ class Stage
         void setUserInput(float, float, float);  //speed, angle, height
         void engine();
         bool gameCheck();
-
+        vector<string> getBird();
         vector<float> vectorY;
     protected:
     private:

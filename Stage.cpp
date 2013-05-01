@@ -66,6 +66,17 @@ void Stage::engine(){
 //    cout << "Totaltime: " << totalTime << endl;
 }
 
+vector<string> Stage::getBird()
+{
+    vector<string> bird(5);
+    bird[0] = "     /^``^\\";
+    bird[1] = "   \\/   \\_/\\";
+    bird[2] = "  --1 .  00|";
+    bird[3] = "   /1    ->|";
+    bird[4] = "     \\_____/";
+    return bird;
+}
+
 Stage::~Stage()
 {
     //dtor

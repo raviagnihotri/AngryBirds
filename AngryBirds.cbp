@@ -37,14 +37,12 @@
 		</Linker>
 		<Unit filename="Bird.cpp" />
 		<Unit filename="Bird.h" />
-		<Unit filename="FysikkMotor.cpp" />
-		<Unit filename="FysikkMotor.h" />
+		<Unit filename="Enemy.cpp" />
+		<Unit filename="Enemy.h" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.h" />
 		<Unit filename="Stage.cpp" />
 		<Unit filename="Stage.h" />
-		<Unit filename="Target.cpp" />
-		<Unit filename="Target.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

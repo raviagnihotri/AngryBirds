@@ -2,36 +2,42 @@
 1367227553 source:/home/ravi/AngryBirds/Bird.cpp
 	"Bird.h"
 
-1367227553 /home/ravi/AngryBirds/Bird.h
+1367420133 /home/ravi/AngryBirds/Bird.h
 
-1367227553 source:/home/ravi/AngryBirds/Game.cpp
+1367424972 source:/home/ravi/AngryBirds/Game.cpp
+	<iostream>
 	"Game.h"
 	"Stage.h"
-	<iostream>
+	<curses.h>
+	<string.h>
+	<unistd.h>
+	<time.h>
+	<sstream>
 
-1367227553 /home/ravi/AngryBirds/Game.h
+1367423478 /home/ravi/AngryBirds/Game.h
 
-1367227553 /home/ravi/AngryBirds/Stage.h
+1367425106 /home/ravi/AngryBirds/Stage.h
+	<vector>
+	<string>
 
-1367227553 source:/home/ravi/AngryBirds/Stage.cpp
+1367425115 source:/home/ravi/AngryBirds/Stage.cpp
 	"Stage.h"
 	"Bird.h"
-	"Target.h"
+	"Enemy.h"
 	<iostream>
+	<cmath>
 
 1367227553 /home/ravi/AngryBirds/Target.h
 
 1367227553 source:/home/ravi/AngryBirds/Target.cpp
 	"Target.h"
 
-1367396789 source:/home/ravi/AngryBirds/main.cpp
+1367425126 source:/home/ravi/AngryBirds/main.cpp
 	<iostream>
 	<curses.h>
 	<string.h>
 	<unistd.h>
-	<time.h>
-	<sstream>
-	"FysikkMotor.h"
+	"Game.h"
 
 1367404563 source:/home/ravi/AngryBirds/FysikkMotor.cpp
 	"FysikkMotor.h"
@@ -46,4 +52,9 @@
 
 1367329768 /home/ravi/AngryBirds/FysikkMotor.h
 	<vector>
+
+1367420133 source:/home/ravi/AngryBirds/Enemy.cpp
+	"Enemy.h"
+
+1367420133 /home/ravi/AngryBirds/Enemy.h
 

@@ -1,4 +1,6 @@
 #include <iostream>
+#include "Game.h"
+#include "Stage.h"
 #include <curses.h>
 #include <string.h>
 #include <unistd.h>
@@ -11,42 +13,28 @@ int bird;
 int target;
 float gravity;
 
-string logo[14];
-logo[0] =  "    ______  __  __  ____    ____    __   __   ";
-logo[1] = "   /\\  _  \\/\\ \\/\\ \\/\\  _`\\ /\\  _`\\ /\\ \\ /\\ \\ ";
-logo[2] = "   \\ \\ \\L\\ \\ \\ `\\\\ \\ \\ \\L\\_\\ \\ \\L\\ \\`\\`\\\\/'/";
-logo[3] = "    \\ \\  __ \\ \\ , ` \\ \\ \\L_L\\ \\ ,  /`\\ `\\ /'   ";
-logo[4] = "     \\ \\ \\/\\ \\ \\ \\`\\ \\ \\ \\/, \\ \\ \\\ \\  `\\ \\ \\  ";
-logo[5] = "      \\ \\_\\ \\_\\ \\_\\ \\_\\ \\____/\\ \\_\\ \\_\\ \\ \\_\\  ";
-logo[6] = "       \\/_/\\/_/\\/_/\\/_/\\/___/  \\/_/\\/_/  \\/_/ ";
-logo[7] = "         ____    ______   ____    ____    ____      n";
-logo[8] = "        /\\  _`\\ /\\__  _\\ /\\  _`\\ /\\  _`\\ /\\  _`\\   ";
-logo[9] = "        \\ \\ \\L\\ \\/_\/\\ \\/ \\ \\ \\L\\ \\ \\ \\/\\ \\ \\,\\L\\_\\  ";
-logo[10] = "         \\ \\  _ <' \\ \\ \\  \\ \\ ,  /\\ \\ \\ \\ \\/_\\__ \\  ";
-logo[11] = "          \\ \\ \\L\\ \\ \\_\\ \\__\\ \\ \\\\ \\\\ \\ \\_\\ \\/\\ \\L\\ \\ ";
-logo[12] = "           \\ \\____/ /\\_____\\\\ \\_\\ \\_\\ \\____/\\ `\\____\\ ";
-logo[13] = "            \\/___/  \\/_____/ \\/_/\\/ /\\/___/  \\/_____/ ";
+WINDOW * top;
+WINDOW * btm;
+int toprow;
 
-Game::Game()
+vector<string> logo(14);
+
+void Game::initLogo()
 {
-    initScreen();
-    attron(COLOR_PAIR(6));
-
-    box(top, 0, 0);
-
-    mvwaddstr(btm, 0, 0, st);
-    box(btm, 0, 0);
-
-    welcomeScr();
-    wrefresh(top);
-    wrefresh(btm);
-
-    userInput();
-
-    delwin(top);
-    delwin(btm);
-
-    endwin();
+    logo[0] =  "    ______  __  __  ____    ____    __   __   ";
+    logo[1] = "   /\\  _  \\/\\ \\/\\ \\/\\  _`\\ /\\  _`\\ /\\ \\ /\\ \\ ";
+    logo[2] = "   \\ \\ \\L\\ \\ \\ `\\\\ \\ \\ \\L\\_\\ \\ \\L\\ \\`\\`\\\\/'/";
+    logo[3] = "    \\ \\  __ \\ \\ , ` \\ \\ \\L_L\\ \\ ,  /`\\ `\\ /'   ";
+    logo[4] = "     \\ \\ \\/\\ \\ \\ \\`\\ \\ \\ \\/, \\ \\ \\\ \\  `\\ \\ \\  ";
+    logo[5] = "      \\ \\_\\ \\_\\ \\_\\ \\_\\ \\____/\\ \\_\\ \\_\\ \\ \\_\\  ";
+    logo[6] = "       \\/_/\\/_/\\/_/\\/_/\\/___/  \\/_/\\/_/  \\/_/ ";
+    logo[7] = "         ____    ______   ____    ____    ____      ";
+    logo[8] = "        /\\  _`\\ /\\__  _\\ /\\  _`\\ /\\  _`\\ /\\  _`\\   ";
+    logo[9] = "        \\ \\ \\L\\ \\/_\/\\ \\/ \\ \\ \\L\\ \\ \\ \\/\\ \\ \\,\\L\\_\\  ";
+    logo[10] = "         \\ \\  _ <' \\ \\ \\  \\ \\ ,  /\\ \\ \\ \\ \\/_\\__ \\  ";
+    logo[11] = "          \\ \\ \\L\\ \\ \\_\\ \\__\\ \\ \\\\ \\\\ \\ \\_\\ \\/\\ \\L\\ \\ ";
+    logo[12] = "           \\ \\____/ /\\_____\\\\ \\_\\ \\_\\ \\____/\\ `\\____\\ ";
+    logo[13] = "            \\/___/  \\/_____/ \\/_/\\/ /\\/___/  \\/_____/ ";
 }
 
 void Game::initScreen()
@@ -71,8 +59,8 @@ void Game::initScreen()
     btmrow = ((row*1)/4)-1;
     btmcol = ((row*3)/4)+1;
 
-    WINDOW * top = newwin(toprow, col, 0, 0);
-    WINDOW * btm = newwin(btmrow, col, btmcol, 0);
+    top = newwin(toprow, col, 0, 0);
+    btm = newwin(btmrow, col, btmcol, 0);
 
     refresh();
 
@@ -92,7 +80,7 @@ void Game::welcomeScr()
 
     //Printe ut logoen
     for(int i = 0; i < logo.size(); i++)
-        mvwaddstr(top,i,1, logo[i].c_str());
+        mvwaddstr(top,i+4,6, logo[i].c_str());
 
     wattroff(top, A_BOLD);
 
@@ -117,52 +105,51 @@ void Game::userInput()
     while(true)
     {
         int in = getch();
-        if(in == 1) //Nytt spill
+        if(in == 49) //Nytt spill
         {
             wclear(btm);
+            box(btm, 0, 0);
             mvwaddstr(btm,0,1, "Select stage:");
             mvwaddstr(btm,1,1, "1 - The Earth");
             mvwaddstr(btm,2,1, "2 - The Moon");
             mvwaddstr(btm,3,1, "3 - Jupiter");
-            mvwaddstr(btm,4,1, "3 - Abort");
+            mvwaddstr(btm,4,1, "4 - Abort");
+            wrefresh(btm);
             int in2 = getch();
 
             while(true)
             {
                 int in2 = getch();
-                if(in2 == 1)
+                if(in2 == 49)
                 {
-                    Stage stage = new Stage(1);
+                    startStage(in2);
                     welcomeScr();
-                    delete stage;
                     break;
                 }
-                else if(in2 == 2)
+                else if(in2 == 50)
                 {
-                    Stage stage = new Stage(2);
+                    startStage(in2);
                     welcomeScr();
-                    delete stage;
                     break;
                 }
-                else if(in2 == 3)
+                else if(in2 == 51)
                 {
-                    Stage stage = new Stage(3);
+                    startStage(in2);
                     welcomeScr();
-                    delete stage;
                     break;
                 }
-                else if(in2 == 4)
+                else if(in2 == 52)
                 {
                     break;
                 }
             }
         }
-        else if(in == 2) //Settings
+        else if(in == 50) //Settings
         {
             // Settings?
 
         }
-        else if(in == 3) //Hjelp
+        else if(in == 51) //Hjelp
         {
             wclear(top);
             mvwaddstr(btm,1,1, "Her det kommer det litt hjelp");
@@ -174,7 +161,7 @@ void Game::userInput()
             welcomeScr();
             break;
         }
-        else if(in == 4) //Avslutt
+        else if(in == 52) //Avslutt
         {
             exit = true;
             break;
@@ -182,6 +169,91 @@ void Game::userInput()
     }
     if(!exit) userInput();
 
+}
+
+void Game::startStage(int in)
+{
+    Stage *stage = new Stage(in);
+    vector<string> bird = stage->getBird();
+    float speed = 10;
+    float angle = 30;
+    wclear(top);
+    wclear(btm);
+    wrefresh(top);
+    wrefresh(btm);
+
+    for(int i = 0; i < bird.size(); i++)
+        mvwaddstr(top, toprow-6, 1, bird[i].c_str());
+
+    while(true)
+    {
+        int in = getch();
+        if(in == KEY_UP)
+        {
+            speed++;
+            mvwprintw(btm, 1, 1, "Speed: %d", speed);
+            wrefresh(btm);
+        }
+        else if(in == KEY_DOWN)
+        {
+            speed--;
+            mvwprintw(btm, 1, 1, "Speed: %d", speed);
+            wrefresh(btm);
+        }
+        else if(in == KEY_LEFT)
+        {
+            angle++;
+            mvwprintw(btm, 1, 1, "Angle: %d", angle);
+            wrefresh(btm);
+        }
+        else if(in == KEY_RIGHT)
+        {
+            angle--;
+            mvwprintw(btm, 1, 1, "Angle: %d", angle);
+            wrefresh(btm);
+        }
+        else if(in == KEY_ENTER)
+        {
+            stage->setUserInput(speed, angle, 1);
+            for(int i = 0; i < stage->vectorY.size(); i++)
+            {
+                mvwprintw(top, stage->vectorY.at(i)+toprow-bird.size(), i+2, "Angle: %d", angle);
+                wrefresh(top);
+                usleep(100000);
+                if( i!= stage->vectorY.size()-1) wclear(top);
+            }
+        }
+        else if(in == KEY_F(1))
+        {
+            break;
+        }
+    }
+    delete stage;
+    welcomeScr();
+    wrefresh(top);
+    wrefresh(btm);
+    userInput();
+}
+
+Game::Game()
+{
+    initScreen();
+    initLogo();
+    attron(COLOR_PAIR(6));
+
+    box(top, 0, 0);
+    box(btm, 0, 0);
+
+    welcomeScr();
+    wrefresh(top);
+    wrefresh(btm);
+
+    userInput();
+
+    delwin(top);
+    delwin(btm);
+
+    endwin();
 }
 
 Game::~Game()
