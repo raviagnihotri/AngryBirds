@@ -21,6 +21,12 @@ class FysikkMotor
         float getCoord_X();
         float getCoord_Y();
 
+        float speed_X;
+        float distance_X;
+        float speed_Y;
+        float distance_Y;
+        float totalTime;
+
         float speed;
         float angle;
         float height;
