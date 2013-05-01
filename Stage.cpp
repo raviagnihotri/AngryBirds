@@ -6,6 +6,9 @@
 
 using namespace std;
 
+    Bird *birdObject = new Bird();
+    Enemy *enemyObject = new Enemy();
+
 Stage::Stage(int st)
 {
     stage = st;
@@ -28,15 +31,27 @@ void Stage::setUserInput(float s, float a, float h){
     speed = s;
     angle = a;
     height = h;
-
     engine();
 }
 
 bool Stage::gameCheck(){
-//    if(== distance_X){
-//        destroyed = true;
-//    }
-    return destroyed;
+    int ceil_distanceX = ceil(distance_X);
+    if(enemyCheck()){
+        return true;
+    }
+    else if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX > getEnemyDistance()-20))
+        enemyObject->updateEnemyHP();
+    else if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX < getEnemyDistance()+20))
+        enemyObject->updateEnemyHP();
+    return false;
+}
+
+bool Stage::enemyCheck(){
+        return enemyObject->getEnemyHP() == 0? true : false;
+}
+
+int Stage::getEnemyDistance(){
+    return enemyDistance;
 }
 
 void Stage::engine(){
@@ -75,6 +90,11 @@ vector<string> Stage::getBird()
     bird[3] = "   /1    ->|";
     bird[4] = "     \\_____/";
     return bird;
+}
+
+vector<float> Stage::getVector_Y()
+{
+    return vectorY;
 }
 
 Stage::~Stage()

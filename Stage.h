@@ -11,12 +11,16 @@ class Stage
         virtual ~Stage();
         void setupStage();
         void setUserInput(float, float, float);  //speed, angle, height
+        int getEnemyDistance();
         void engine();
         bool gameCheck();
         vector<string> getBird();
-        vector<float> vectorY;
+        bool enemyCheck();
+        vector<float> getVector_Y();
     protected:
     private:
+
+        int enemyDistance = 140;
         int stage;
         int birds;
         int targets;
@@ -38,7 +42,7 @@ class Stage
         float time_X;
         float totalDistance;
 
-        bool destroyed;
+        vector<float> vectorY;
 };
 
 #endif // STAGE_H

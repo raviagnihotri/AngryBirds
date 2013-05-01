@@ -5,12 +5,14 @@
 class Enemy
 {
     public:
-        Enemy(int ); //antTargets
+        Enemy(); //antTargets
+        void updateEnemyHP();
+        int getEnemyHP();
         virtual ~Enemy();
     protected:
     private:
         int antEnemies;
-        const static int MAX_HP = 100;
+        int hp;
 };
 
 #endif // TARGET_H

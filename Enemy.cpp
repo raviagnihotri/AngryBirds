@@ -1,8 +1,15 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int t)
+Enemy::Enemy()
 {
-    antEnemies = t;
+}
+
+void Enemy::updateEnemyHP(){
+    hp = hp - 50;
+}
+
+int Enemy::getEnemyHP(){
+    return hp;
 }
 
 Enemy::~Enemy()

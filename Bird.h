@@ -5,15 +5,10 @@
 class Bird
 {
     public:
-        Bird(int);
+        Bird();
         virtual ~Bird();
-        void setSpeed(int);
-        int getSpeed();
-        int getWeight();
     protected:
     private:
-        int speed;
-        int weight;
 };
 
 #endif // BIRD_H

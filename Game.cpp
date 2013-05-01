@@ -115,7 +115,6 @@ void Game::userInput()
             mvwaddstr(btm,3,1, "3 - Jupiter");
             mvwaddstr(btm,4,1, "4 - Abort");
             wrefresh(btm);
-            int in2 = getch();
 
             while(true)
             {
@@ -152,6 +151,7 @@ void Game::userInput()
         else if(in == 51) //Hjelp
         {
             wclear(top);
+            box(top, 0, 0);
             mvwaddstr(btm,1,1, "Her det kommer det litt hjelp");
             mvwaddstr(btm,2,1, "Dette er andre linje");
             mvwaddstr(btm,3,1, "Og tredje...");
@@ -175,15 +175,25 @@ void Game::startStage(int in)
 {
     Stage *stage = new Stage(in);
     vector<string> bird = stage->getBird();
-    float speed = 10;
-    float angle = 30;
+    int speed = 10;
+    int angle = 30;
     wclear(top);
     wclear(btm);
+    box(top, 0, 0);
+    box(btm, 0, 0);
     wrefresh(top);
     wrefresh(btm);
 
     for(int i = 0; i < bird.size(); i++)
-        mvwaddstr(top, toprow-6, 1, bird[i].c_str());
+    {
+        mvwaddstr(top, 30+i, 1, bird[i].c_str());
+        mvwaddstr(top, 30, stage->getEnemyDistance(), "X");
+    }
+
+    mvwprintw(btm, 1, 1, "Speed: %d", speed);
+    mvwprintw(btm, 2, 1, "Angle: %d", angle);
+    wrefresh(top);
+    wrefresh(btm);
 
     while(true)
     {
@@ -203,25 +213,39 @@ void Game::startStage(int in)
         else if(in == KEY_LEFT)
         {
             angle++;
-            mvwprintw(btm, 1, 1, "Angle: %d", angle);
+            mvwprintw(btm, 2, 1, "Angle: %d", angle);
             wrefresh(btm);
         }
         else if(in == KEY_RIGHT)
         {
             angle--;
-            mvwprintw(btm, 1, 1, "Angle: %d", angle);
+            mvwprintw(btm, 2, 1, "Angle: %d", angle);
             wrefresh(btm);
         }
-        else if(in == KEY_ENTER)
+        else if(in == 97) //bokstaven a
         {
-            stage->setUserInput(speed, angle, 1);
-            for(int i = 0; i < stage->vectorY.size(); i++)
-            {
-                mvwprintw(top, stage->vectorY.at(i)+toprow-bird.size(), i+2, "Angle: %d", angle);
-                wrefresh(top);
-                usleep(100000);
-                if( i!= stage->vectorY.size()-1) wclear(top);
-            }
+                stage->setUserInput((float) speed, (float) angle, 1);
+                for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
+                {
+                    for(int j = 0; j < bird.size(); j++)
+                        mvwaddstr(top, 30+i, i+2, bird[j].c_str());
+
+                    wrefresh(top);
+                    usleep(1000);
+                    //if( i!= stage->getVector_Y().size()-1) wclear(top);
+                }
+
+//            do{
+//                stage->setUserInput((float) speed, (float) angle, 1);
+//                for(int i = 0; i < stage->getVector_Y().size(); i++)
+//                {
+//                        mvwprintw(top, stage->getVector_Y().at(i)+30, i+2, "Angle: %d", angle);
+//                        wrefresh(top);
+//                        usleep(100000);
+//                        if( i!= stage->getVector_Y().size()-1) wclear(top);
+//                }
+//            }while(!stage->gameCheck());
+
         }
         else if(in == KEY_F(1))
         {
