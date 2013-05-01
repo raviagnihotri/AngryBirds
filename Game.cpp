@@ -181,6 +181,7 @@ void Game::userInput()
         }
     }
     if(!exit) userInput();
+
 }
 
 Game::~Game()

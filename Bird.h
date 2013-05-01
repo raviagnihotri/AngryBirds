@@ -14,7 +14,6 @@ class Bird
     private:
         int speed;
         int weight;
-        char graphic[3] = {'x', 'y', 'z'};
 };
 
 #endif // BIRD_H

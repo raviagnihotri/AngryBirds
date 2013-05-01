@@ -7,8 +7,8 @@
 	<File name="Bird.h" open="1" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="Game.cpp" open="1" top="1" tabpos="9">
-		<Cursor position="142" topLine="0" />
+	<File name="Game.cpp" open="1" top="1" tabpos="7">
+		<Cursor position="2887" topLine="0" />
 	</File>
 	<File name="Game.h" open="1" top="0" tabpos="3">
 		<Cursor position="186" topLine="0" />
@@ -25,7 +25,7 @@
 	<File name="Target.h" open="1" top="0" tabpos="7">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="8">
-		<Cursor position="160" topLine="0" />
+	<File name="main.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="162" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
