@@ -11,7 +11,7 @@ using namespace std;
 
 int main()
 {
-
+    FysikkMotor fysikk(35,60,1);
     initscr();
 
     int row, col, toprow, topcol, btmrow, btmcol;
@@ -38,6 +38,12 @@ int main()
     string meny =  "1. Start spillet \n";
            meny += " 2. Endre noe \n";
            meny += " 3. Avslutt";
+
+    string bird1 = "     /^``^\\";
+    string bird2 = "   \\/   \\_/\\";
+    string bird3 = "  --1 .  00|";
+    string bird4 = "   /1    ->|";
+    string bird5 = "     \\_____/";
 
 
     getmaxyx(stdscr, row, col);
@@ -72,15 +78,26 @@ int main()
 //        //clear();
 //    }
 
+    for(int i = 0; i < fysikk.vectorY.size(); i++){
+        mvwaddstr(top,fysikk.vectorY.at(i)+30,i+2, bird1.c_str());
+        mvwaddstr(top,fysikk.vectorY.at(i)+31,i+2, bird2.c_str());
+        mvwaddstr(top,fysikk.vectorY.at(i)+32,i+2, bird3.c_str());
+        mvwaddstr(top,fysikk.vectorY.at(i)+33,i+2, bird4.c_str());
+        mvwaddstr(top,fysikk.vectorY.at(i)+34,i+2, bird5.c_str());
+        wrefresh(top);
+        usleep(100000);
+        if(i != fysikk.vectorY.size()-1) wclear(top);
+    }
+
 
     //mvprintw(row/2, col, " rows and %d cols",row,col);
     mvwaddstr(top, 0, 0, st);
     box(top, 0, 0);
 
     wattron(top, A_BOLD | COLOR_PAIR(1));
-    mvwaddstr(top,1,0,logo1.c_str());
-    wattron(top, A_BOLD | COLOR_PAIR(4));
-    mvwaddstr(top,10,0,logo2.c_str());
+//    mvwaddstr(top,1,0,logo1.c_str());
+//    wattron(top, A_BOLD | COLOR_PAIR(4));
+//    mvwaddstr(top,10,0,logo2.c_str());
     wattroff(top, A_BOLD);
 
     mvwaddstr(btm, 0, 0, st);
@@ -103,66 +120,5 @@ int main()
 
     endwin();
 
-    FysikkMotor fysikk(20,30,1);
-
-    int row, col;
-    noecho();
-
-    initscr();
-    char st[] = "Dette er en test!";
-    getmaxyx(stdscr, row, col);
-    WINDOW * top = newwin((row*2)/3, col, 0, 0);
-    WINDOW * btm = newwin(((row*1)/3)-1, col, ((row*2)/3)+1 , 0);
-
-    refresh();
-    start_color();
-
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-    init_pair(2, COLOR_BLUE, COLOR_WHITE);
-    init_pair(3, COLOR_GREEN, COLOR_BLUE);
-    init_pair(4, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(5, COLOR_MAGENTA, COLOR_WHITE);
-
-
-//    for(int i=0; i < 40; i++)
-//    {
-//        if(i%2 == 0) attron(A_BOLD | COLOR_PAIR(i%5));
-//        mvwaddstr(top, i, i, row);
-//        attroff(A_BOLD | COLOR_PAIR(i%5));
-//        //getch();
-//        sleep(1);
-//        wrefresh(top);
-//        //clear();
-//    }
-
-    for(int i = 0; i < fysikk.vectorX.capacity(); i++){
-        mvwaddstr(top,fysikk.vectorY.back()+7,fysikk.vectorX.back()+5, "X");
-        fysikk.vectorY.pop_back();
-        fysikk.vectorX.pop_back();
-        wrefresh(top);
-//        sleep(1);
-    }
-
-
-    //mvprintw(row/2, col, " rows and %d cols",row,col);
-    mvwaddstr(top, 0, 0, st);
-    box(top, 0, 0);
-    mvwaddstr(btm, 0, 0, st);
-    box(btm, 0, 0);
-    mvwaddstr(btm,1,1,"Dette er en test, mohaha");
-    stringstream ss;
-    ss << row << " - " << col;
-    string as = ss.str();
-    mvwaddstr(btm,2,1,as.c_str());
-
-    wrefresh(top);
-    wrefresh(btm);
-
-    getch();
-
-    delwin(top);
-    delwin(btm);
-
-    endwin();
     return 0;
 }
