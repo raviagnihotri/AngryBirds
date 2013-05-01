@@ -8,6 +8,8 @@ class Game
         Game();
         virtual ~Game();
         void welcomeScr();
+        void initScreen();
+        void userInput();
     protected:
     private:
 };
