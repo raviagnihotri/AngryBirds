@@ -48,20 +48,32 @@ void FysikkMotor::engine(){
 
     angle = angle * (2 * 3.14 / 360);
 
-    time_Y = ((speed*speed) * sin(2*angle)) / 9.81;
+    speed_Y = sin(angle)*speed;
+    totalTime = (-speed_Y - sqrt((speed_Y*speed_Y) - (4*(-9.81*0.5)*1))) / (2*-9.81*0.5);
+    distance_Y = (speed_Y*totalTime) + (0.5*-9.81*(totalTime*totalTime));
 
-    for(coord_X = 0; coord_X <= time_Y; coord_X++){
+    speed_X = cos(angle)* speed;
+    distance_X = speed_X * totalTime;
+
+    for(coord_X = 0; coord_X <= distance_X; coord_X++){
         time_X = coord_X / (speed * cos(angle));
         coord_Y = (-0.5 * 9.81 * (time_X * time_X) + speed * sin(angle) * time_X) * -1;
 
         if(coord_Y <= 0){
             vectorY.push_back(coord_Y);
-//            cout << "(" << getCoord_X() << ", " << getCoord_Y() << ")" << endl;
-//            mvwaddstr(top,coord_Y,coord_X,"..Mjau");
-//            wrefresh(top);
-//            sleep(1);
         }
     }
+
+//    cout << "Speed_y: " << speed_Y << endl;
+//    cout << "Distance_y: " << distance_Y << endl;
+//    cout << "Speed_x: " << speed_X << endl;
+//    cout << "Distance_x: " << distance_X << endl;
+//    cout << "Totaltime: " << totalTime << endl;
+
+
+
+
+
 
 //    lengdeHelper = height;
 

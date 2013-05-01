@@ -11,7 +11,7 @@ using namespace std;
 
 int main()
 {
-    FysikkMotor fysikk(35,60,1);
+    FysikkMotor fysikk(35,40,1);
     initscr();
 
     int row, col, toprow, topcol, btmrow, btmcol;
@@ -79,11 +79,13 @@ int main()
 //    }
 
     for(int i = 0; i < fysikk.vectorY.size(); i++){
-        mvwaddstr(top,fysikk.vectorY.at(i)+30,i+2, bird1.c_str());
-        mvwaddstr(top,fysikk.vectorY.at(i)+31,i+2, bird2.c_str());
-        mvwaddstr(top,fysikk.vectorY.at(i)+32,i+2, bird3.c_str());
-        mvwaddstr(top,fysikk.vectorY.at(i)+33,i+2, bird4.c_str());
-        mvwaddstr(top,fysikk.vectorY.at(i)+34,i+2, bird5.c_str());
+
+    mvwaddstr(top,toprow-5,col-20,"X");
+        mvwaddstr(top,fysikk.vectorY.at(i)+toprow-4,i+2, bird1.c_str());
+        mvwaddstr(top,fysikk.vectorY.at(i)+toprow-3,i+2, bird2.c_str());
+        mvwaddstr(top,fysikk.vectorY.at(i)+toprow-2,i+2, bird3.c_str());
+        mvwaddstr(top,fysikk.vectorY.at(i)+toprow-1,i+2, bird4.c_str());
+        mvwaddstr(top,fysikk.vectorY.at(i)+toprow-0,i+2, bird5.c_str());
         wrefresh(top);
         usleep(100000);
         if(i != fysikk.vectorY.size()-1) wclear(top);
