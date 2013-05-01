@@ -5,13 +5,13 @@
 #include <time.h>
 #include <sstream>
 //#include "Game.h"
-#include "FysikkMotor.h"
+#include "Stage.h"
 
 using namespace std;
 
 int main()
 {
-    FysikkMotor fysikk(35,40,1);
+    Stage fysikk(1);
     initscr();
 
     int row, col, toprow, topcol, btmrow, btmcol;

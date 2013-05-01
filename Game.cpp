@@ -22,7 +22,6 @@ void Game::welcomeScr(){
     cin >> target;
     cout << "Pick gravity(i.e: 8.9): " << ends;
     cin >> gravity;
-    Stage stageObject(bird,target,gravity);
 
 
 }
