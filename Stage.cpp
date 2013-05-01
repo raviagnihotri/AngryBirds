@@ -29,14 +29,24 @@ void Stage::setUserInput(float s, float a, float h){
     angle = a;
     height = h;
 
+    Bird bird = new Bird();
+    Enemy enemy = new Enemy();
     engine();
 }
 
 bool Stage::gameCheck(){
-//    if(== distance_X){
-//        destroyed = true;
-//    }
+    int enemyDistance = 140;
+    if(enemyCheck())
+        return destroyed;
+    else if(((ceil(distance_X) <= 140) || (ceil(distance_X) => 140)) && (ceil(distance_X) > 120))
+        Enemy.updateEnemyHP();
+    else if(((ceil(distance_X) <= 140) || (ceil(distance_X) => 140)) && (ceil(distance_X) < 160))
+        Enemy.updateEnemyHP();
     return destroyed;
+}
+
+bool Stage::enemyCheck(){
+        return Enemy.getEnemyHP() == 0? true : false;
 }
 
 void Stage::engine(){

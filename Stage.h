@@ -1,7 +1,6 @@
 #ifndef STAGE_H
 #define STAGE_H
 #include <vector>
-using namespace std;
 
 class Stage
 {
@@ -12,8 +11,8 @@ class Stage
         void setUserInput(float, float, float);  //speed, angle, height
         void engine();
         bool gameCheck();
-
-        vector<float> vectorY;
+        bool enemyCheck();
+        vector<float> getVectory_Y(return vectorY);
     protected:
     private:
         int stage;
@@ -38,6 +37,8 @@ class Stage
         float totalDistance;
 
         bool destroyed;
+
+        vector<float> vectorY;
 };
 
 #endif // STAGE_H
