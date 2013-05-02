@@ -137,26 +137,27 @@ void Game::userInput()
 
             while(true)
             {
-                int in2 = getch();
-                if(in2 == 49)
+                stagePick = getch();
+//                int in2 = getch();
+                if(stagePick == 49)
                 {
                     startStage(1);
                     welcomeScr();
                     break;
                 }
-                else if(in2 == 50)
+                else if(stagePick == 50)
                 {
                     startStage(2);
                     welcomeScr();
                     break;
                 }
-                else if(in2 == 51)
+                else if(stagePick == 51)
                 {
                     startStage(2);
                     welcomeScr();
                     break;
                 }
-                else if(in2 == 52)
+                else if(stagePick == 52)
                 {
                     welcomeScr();
                     break;
@@ -206,8 +207,10 @@ void Game::startStage(int in)
 
     for(int i = 0; i < bird.size(); i++)
     {
-        mvwaddstr(top, 30+i, 1, bird[i].c_str());
+        mvwaddstr(top, 27+i, 1, bird[i].c_str());
+        mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
         mvwaddstr(top, 30, stage->getEnemyDistance(), "X");
+        mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
     }
 
     mvwprintw(btm, 1, 1, "Speed: %d", speed);
@@ -249,13 +252,43 @@ void Game::startStage(int in)
             for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
             {
                 wclear(top);
-                for(int j = 0; j < bird.size(); j++)
-                    mvwaddstr(top, 30+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
+                for(int j = 0; j < bird.size(); j++){
+                        mvwaddstr(top, 27+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
+                        mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
+                        mvwaddstr(top, 30, stage->getEnemyDistance(), "X");
+                        mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
+                }
                 wrefresh(top);
                 usleep(100000);
                 //if( i!= stage->getVector_Y().size()-1) wclear(top);
             }
-            break;
+//                if(!stage->gameCheck()){
+////                    mvwaddstr(top, 30+5, 3+2, "BKAAA");
+////                    wrefresh(top);
+//                }
+            if(!stage->gameOver()){
+                wclear(top);
+                mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
+                mvwaddstr(top, 30, stage->getEnemyDistance()-7, "BKAAAAA...dead");
+                mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
+                wrefresh(top);
+                finish();
+                sleep(20);
+            }
+            else if(stage->gameOver()){
+                wclear(top);
+                mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
+                mvwaddstr(top, 30, stage->getEnemyDistance()-2, "-50HP");
+                mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
+                wrefresh(top);
+                sleep(20);
+//                delete stage;
+                startStage(stagePick);
+            }
+            else
+                break;
+//                else
+//                    break;
 
 //            do{
 //                stage->setUserInput((float) speed, (float) angle, 1);
@@ -279,6 +312,17 @@ void Game::startStage(int in)
     wrefresh(top);
     wrefresh(btm);
     userInput();
+}
+
+void Game::finish(){
+    wclear(btm);
+    box(btm, 0, 0);
+    //Printe ut menyen
+    mvwaddstr(btm,0,1, "Meny");
+    mvwaddstr(btm,1,1, "1. Start nytt spill");
+    mvwaddstr(btm,2,1, "2. Highscore");
+    mvwaddstr(btm,4,1, "4. Avslutt");
+    wrefresh(btm);
 }
 
 Game::Game()

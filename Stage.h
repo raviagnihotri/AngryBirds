@@ -13,7 +13,7 @@ class Stage
         void setUserInput(float, float, float);  //speed, angle, height
         int getEnemyDistance();
         void engine();
-        bool gameCheck();
+        bool gameOver();
         vector<string> getBird();
         bool enemyCheck();
         vector<float> getVector_Y();

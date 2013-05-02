@@ -12,7 +12,7 @@ class Enemy
     protected:
     private:
         int antEnemies;
-        int hp;
+        int hp = 100;
 };
 
 #endif // TARGET_H

@@ -11,6 +11,8 @@ class Game
         void welcomeScr();
         void userInput();
         void startStage(int i);
+        void finish();
+        int stagePick;
     public:
         Game();
         virtual ~Game();

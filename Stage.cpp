@@ -34,20 +34,26 @@ void Stage::setUserInput(float s, float a, float h){
     engine();
 }
 
-bool Stage::gameCheck(){
+bool Stage::gameOver(){
     int ceil_distanceX = ceil(distance_X);
-    if(enemyCheck()){
-        return true;
+    if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX > getEnemyDistance()-5)){
+        enemyObject->updateEnemyHP();
+        if(enemyCheck()){
+            return true;
+        }
+
     }
-    else if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX > getEnemyDistance()-20))
+    else if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX < getEnemyDistance()+5)){
         enemyObject->updateEnemyHP();
-    else if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX < getEnemyDistance()+20))
-        enemyObject->updateEnemyHP();
+        if(enemyCheck()){
+            return true;
+        }
+    }
     return false;
 }
 
 bool Stage::enemyCheck(){
-        return enemyObject->getEnemyHP() == 0? true : false;
+        return enemyObject->getEnemyHP() == 0? false : true;
 }
 
 int Stage::getEnemyDistance(){
