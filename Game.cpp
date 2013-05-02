@@ -18,6 +18,7 @@ WINDOW * btm;
 int toprow;
 
 vector<string> logo(14);
+vector<string> sun(5);
 
 void Game::initLogo()
 {
@@ -35,6 +36,15 @@ void Game::initLogo()
     logo[11] = "          \\ \\ \\L\\ \\ \\_\\ \\__\\ \\ \\\\ \\\\ \\ \\_\\ \\/\\ \\L\\ \\ ";
     logo[12] = "           \\ \\____/ /\\_____\\\\ \\_\\ \\_\\ \\____/\\ `\\____\\ ";
     logo[13] = "            \\/___/  \\/_____/ \\/_/\\/ /\\/___/  \\/_____/ ";
+}
+
+void Game::initSun()
+{
+    sun[0] = "###########";
+    sun[1] = "##########";
+    sun[2] = "#########";
+    sun[3] = "######";
+    sun[4] = "###";
 }
 
 void Game::initScreen()
@@ -67,7 +77,7 @@ void Game::initScreen()
     //Opprette noen fargepar
     init_pair(1, COLOR_RED, COLOR_BLACK);
     init_pair(2, COLOR_BLUE, COLOR_WHITE);
-    init_pair(3, COLOR_GREEN, COLOR_BLUE);
+    init_pair(3, COLOR_WHITE, COLOR_BLUE);
     init_pair(4, COLOR_YELLOW, COLOR_BLACK);
     init_pair(5, COLOR_MAGENTA, COLOR_WHITE);
     init_pair(6, COLOR_WHITE, COLOR_BLACK);
@@ -76,15 +86,24 @@ void Game::initScreen()
 
 void Game::welcomeScr()
 {
-    wattron(top, A_BOLD | COLOR_PAIR(1));
+    wattroff(top, A_BOLD);
+    wclear(top);
+    wclear(btm);
+    box(top, 0, 0);
+    box(btm, 0, 0);
 
+    wattron(top, A_BOLD | COLOR_PAIR(4));
+    //Printe ut sola
+    for(int i = 0; i < sun.size(); i++)
+        mvwaddstr(top,i+1,1, sun[i].c_str());
+    wattroff(top, COLOR_PAIR(4));
+
+    wattron(top, A_BOLD | COLOR_PAIR(1));
     //Printe ut logoen
     for(int i = 0; i < logo.size(); i++)
-        mvwaddstr(top,i+4,6, logo[i].c_str());
+        mvwaddstr(top,i+7,10, logo[i].c_str());
+    wattroff(top, COLOR_PAIR(1));
 
-    wattroff(top, A_BOLD);
-
-    wattron(top, A_BOLD | COLOR_PAIR(6));
 
     //Printe ut menyen
     mvwaddstr(btm,0,1, "Meny");
@@ -121,24 +140,25 @@ void Game::userInput()
                 int in2 = getch();
                 if(in2 == 49)
                 {
-                    startStage(in2);
+                    startStage(1);
                     welcomeScr();
                     break;
                 }
                 else if(in2 == 50)
                 {
-                    startStage(in2);
+                    startStage(2);
                     welcomeScr();
                     break;
                 }
                 else if(in2 == 51)
                 {
-                    startStage(in2);
+                    startStage(2);
                     welcomeScr();
                     break;
                 }
                 else if(in2 == 52)
                 {
+                    welcomeScr();
                     break;
                 }
             }
@@ -224,16 +244,18 @@ void Game::startStage(int in)
         }
         else if(in == 97) //bokstaven a
         {
-                stage->setUserInput((float) speed, (float) angle, 1);
-                for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
-                {
-                    for(int j = 0; j < bird.size(); j++)
-                        mvwaddstr(top, 30+i, i+2, bird[j].c_str());
-
-                    wrefresh(top);
-                    usleep(1000);
-                    //if( i!= stage->getVector_Y().size()-1) wclear(top);
-                }
+            stage->setUserInput((float) speed, (float) angle, 1);
+            wrefresh(top);
+            for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
+            {
+                wclear(top);
+                for(int j = 0; j < bird.size(); j++)
+                    mvwaddstr(top, 30+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
+                wrefresh(top);
+                usleep(100000);
+                //if( i!= stage->getVector_Y().size()-1) wclear(top);
+            }
+            break;
 
 //            do{
 //                stage->setUserInput((float) speed, (float) angle, 1);
@@ -262,6 +284,7 @@ void Game::startStage(int in)
 Game::Game()
 {
     initScreen();
+    initSun();
     initLogo();
     attron(COLOR_PAIR(6));
 

@@ -6,6 +6,7 @@ class Game
 {
     private:
         void initLogo();
+        void initSun();
         void initScreen();
         void welcomeScr();
         void userInput();
