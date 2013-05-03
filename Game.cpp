@@ -279,6 +279,7 @@ void Game::welcomeScr()
 
 void Game::userInput()
 {
+    antMiss = 3;
     bool exit = false;
 
     while(true)
@@ -456,6 +457,7 @@ void Game::startStage(int in)
                     finish();
                 }
                 else{
+                    antMiss--;
                     wclear(top);
                     printScenery();
                     //print ut noobshot logo
@@ -471,6 +473,8 @@ void Game::startStage(int in)
                 }
             }
             else if(!stage->enemyHit()){
+                antMiss--;
+                if(antMiss != 0){
                     wclear(top);
                     printScenery();
                     for(int j = 0; j < ns.size(); j++)
@@ -484,6 +488,13 @@ void Game::startStage(int in)
                     sleep(1);
                     delete stage;
                     startStage(stagePick);
+                }
+                else if(antMiss == 0){
+                    //GAME OVER logo
+                    stage->resetEnemyHP();
+                    delete stage;
+                    finish();
+                }
             }
         }
     }
@@ -495,8 +506,10 @@ void Game::finish(){
     box(btm, 0, 0);
     //Printe ut menyen
     mvwaddstr(btm,0,1, "Meny");
-    mvwaddstr(btm,1,1, "1. Start nytt spill");
-    mvwaddstr(btm,3,1, "3. Avslutt");
+    mvwaddstr(btm,1,1, "1. Start spill");
+    mvwaddstr(btm,2,1, "2. Endre på noe");
+    mvwaddstr(btm,3,1, "3. Hjelp");
+    mvwaddstr(btm,4,1, "4. Avslutt");
     wrefresh(btm);
     userInput();
 }

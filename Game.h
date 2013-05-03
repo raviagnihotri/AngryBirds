@@ -21,6 +21,7 @@ class Game
     public:
         Game();
         virtual ~Game();
+        int antMiss;
         int atgrass;
         int speed;
         int angle;
