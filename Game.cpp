@@ -22,6 +22,7 @@ vector<string> logo(14);
 vector<string> sun(7);
 vector<string> hs(5);
 vector<string> ns(5);
+vector<string> go(5);
 vector<string> text(11);
 
 void Game::initLogo()
@@ -55,20 +56,38 @@ void Game::initSun()
 
 void Game::headShot()
 {
-    hs[0] = "              ____                                                                           ______                 ";
-    hs[1] = " |         | |                  .'.       |``````.                     ..'''' |         |  .~      ~.  `````|`````  ";
-    hs[2] = " |_________| |______          .''```.     |       |                 .''       |_________| |          |      |       ";
-    hs[3] = " |         | |              .'       `.   |       |              ..'          |         | |          |      |       ";
-    hs[4] = " |         | |___________ .'           `. |......'         ....''             |         |  `.______.'       |       ";
+    hs[0] = " _   _ _____    _    ____    ____  _   _  ___ _____ ";
+    hs[1] = "| | | | ____|  / \\  |  _ \\  / ___|| | | |/ _ \\_   _|";
+    hs[2] = "| |_| |  _|   / _ \\ | | | | \\___ \\| |_| | | | || |  ";
+    hs[3] = "|  _  | |___ / ___ \\| |_| |  ___) |  _  | |_| || | ";
+    hs[4] = "|_| |_|_____/_/   \\_\\____/  |____/|_| |_|\\___/ |_| ";
+//    hs[0] = "              ____                                                                           ______                 ";
+//    hs[1] = " |         | |                  .'.       |``````.                     ..'''' |         |  .~      ~.  `````|`````  ";
+//    hs[2] = " |_________| |______          .''```.     |       |                 .''       |_________| |          |      |       ";
+//    hs[3] = " |         | |              .'       `.   |       |              ..'          |         | |          |      |       ";
+//    hs[4] = " |         | |___________ .'           `. |......'         ....''             |         |  `.______.'       |       ";
 }
 
 void Game::noobShot()
 {
-    ns[0] = "                   ______       ______     ____                                               ______                 ";
-    ns[1] = " |..          |  .~      ~.   .~      ~.  |    ~.                       ..'''' |         |  .~      ~.  `````|`````  ";
-    ns[2] = " |  ``..      | |          | |          | |____.'_                   .''       |_________| |          |      |       ";
-    ns[3] = " |      ``..  | |          | |          | |       ~.              ..'          |         | |          |      |       ";
-    ns[4] = " |          ``|  `.______.'   `.______.'  |_______.'        ....''             |         |  `.______.'       |  ";
+    ns[0] = " _   _  ___   ___  ____    ____  _   _  ___ _____ ";
+    ns[1] = "| \\ | |/ _ \\ / _ \\| __ )  / ___|| | | |/ _ \\_   _|";
+    ns[2] = "|  \\| | | | | | | |  _ \\  \\___ \\| |_| | | | || |  ";
+    ns[3] = "| |\\  | |_| | |_| | |_) |  ___) |  _  | |_| || | ";
+    ns[4] = "|_| \\_|\\___/ \\___/|____/  |____/|_| |_|\\___/ |_| ";
+//    ns[0] = "                   ______       ______     ____                                               ______                 ";
+//    ns[1] = " |..          |  .~      ~.   .~      ~.  |    ~.                       ..'''' |         |  .~      ~.  `````|`````  ";
+//    ns[2] = " |  ``..      | |          | |          | |____.'_                   .''       |_________| |          |      |       ";
+//    ns[3] = " |      ``..  | |          | |          | |       ~.              ..'          |         | |          |      |       ";
+//    ns[4] = " |          ``|  `.______.'   `.______.'  |_______.'        ....''             |         |  `.______.'       |  ";
+}
+
+void Game::gameOver(){
+    go[0] = "  ____    _    __  __ _____    _____     _______ ____ ";
+    go[1] = " / ___|  / \\  |  \\/  | ____|  / _ \\ \\   / / ____|  _ \\ ";
+    go[2] = "| |  _  / _ \\ | |\\/| |  _|   | | | \\ \\ / /|  _| | |_) |";
+    go[3] = "| |_| |/ ___ \\| |  | | |___  | |_| |\\ \V / | |___|  _ < ";
+    go[4] = " \\____/_/   \\_\\_|  |_|_____|  \\___/  \\_/  |_____|_| \\_\\";
 }
 
 void Game::helpText()
@@ -162,6 +181,7 @@ void Game::welcomeScr()
 {
     headShot();
     noobShot();
+    gameOver();
     helpText();
     wattroff(top, A_BOLD);
     wclear(top);
@@ -195,7 +215,8 @@ void Game::welcomeScr()
                 wattron(top, A_BOLD | COLOR_PAIR(1));
                 //Printe ut logoen i midten
                 for(int i = 0; i < logo.size(); i++)
-                    mvwaddstr(top,i+9,(topx-55)/2, logo[i].c_str());
+                    mvwaddstr(top,i+9,(topx-200)/2, logo[i].c_str());
+//                    mvwaddstr(top,i+9,(topx-55)/2, logo[i].c_str());
                 wattroff(top, COLOR_PAIR(1));
 
                 for(int j = 0; j < bird.size(); j++)
@@ -457,7 +478,6 @@ void Game::startStage(int in)
                     finish();
                 }
                 else{
-                    antMiss--;
                     wclear(top);
                     printScenery();
                     //print ut noobshot logo
@@ -491,6 +511,16 @@ void Game::startStage(int in)
                 }
                 else if(antMiss == 0){
                     //GAME OVER logo
+                    wclear(top);
+                    printScenery();
+                    for(int j = 0; j < hs.size(); j++)
+                        mvwaddstr(top,j+9,(topx-55)/2, go[j].c_str());
+                    for(int j = 0; j < enemy.size(); j++)
+                    {
+                        if(j == 3) enemy[3] = "<| -MISS |>";
+                        mvwaddstr(top, atgrass+j, stage->getEnemyDistance()-6, enemy[j].c_str());
+                    }
+                    wrefresh(top);
                     stage->resetEnemyHP();
                     delete stage;
                     finish();
