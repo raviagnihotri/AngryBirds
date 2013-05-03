@@ -12,10 +12,15 @@ class Stage
         void setupStage();
         void setUserInput(float, float, float);  //speed, angle, height
         int getEnemyDistance();
+        int getDistance_X();
         void engine();
-        bool gameCheck();
+        bool gameOver();
+        bool enemyHit();
+        void resetEnemyHP();
+        int getEnemyHP();
+        bool getHeadshot();
         vector<string> getBird();
-        bool enemyCheck();
+        vector<string> getEnemy();
         vector<float> getVector_Y();
     protected:
     private:
@@ -41,6 +46,8 @@ class Stage
         float time_Y;
         float time_X;
         float totalDistance;
+
+        bool headShot;
 
         vector<float> vectorY;
 };

@@ -6,13 +6,16 @@ class Enemy
 {
     public:
         Enemy(); //antTargets
-        void updateEnemyHP();
-        int getEnemyHP();
+        void headShot();
+        void sideShot();
+//        void updateEnemyHP();
+        int getHP();
+        void resetHP();
         virtual ~Enemy();
     protected:
     private:
         int antEnemies;
-        int hp;
+        int hp = 100;
 };
 
 #endif // TARGET_H

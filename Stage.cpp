@@ -6,13 +6,15 @@
 
 using namespace std;
 
-    Bird *birdObject = new Bird();
+    Bird *birdObject;
     Enemy *enemyObject = new Enemy();
 
 Stage::Stage(int st)
 {
     stage = st;
     setupStage();
+    birdObject = new Bird();
+    headShot = false;
 }
 
 void Stage::setupStage(){
@@ -34,24 +36,47 @@ void Stage::setUserInput(float s, float a, float h){
     engine();
 }
 
-bool Stage::gameCheck(){
+bool Stage::enemyHit(){
     int ceil_distanceX = ceil(distance_X);
-    if(enemyCheck()){
+    if(ceil_distanceX == getEnemyDistance()){
+        headShot = true;
+        if(enemyObject->getHP() != 0){
+            enemyObject->headShot();
+        }
         return true;
     }
-    else if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX > getEnemyDistance()-20))
-        enemyObject->updateEnemyHP();
-    else if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX < getEnemyDistance()+20))
-        enemyObject->updateEnemyHP();
+    if(ceil_distanceX < getEnemyDistance() && ceil_distanceX > getEnemyDistance()-5){
+        if(enemyObject->getHP() != 0)
+            enemyObject->sideShot();
+        return true;
+    }
+    else if(ceil_distanceX > getEnemyDistance() && ceil_distanceX < getEnemyDistance()+5){
+        if(enemyObject->getHP() != 0)
+            enemyObject->sideShot();
+        return true;
+    }
+
     return false;
 }
 
-bool Stage::enemyCheck(){
-        return enemyObject->getEnemyHP() == 0? true : false;
+bool Stage::gameOver(){
+        return enemyObject->getHP() <= 0? true : false;
 }
 
 int Stage::getEnemyDistance(){
     return enemyDistance;
+}
+
+void Stage::resetEnemyHP(){
+    enemyObject->resetHP();
+}
+
+int Stage::getEnemyHP(){
+    enemyObject->getHP();
+}
+
+bool Stage::getHeadshot(){
+    return headShot;
 }
 
 void Stage::engine(){
@@ -81,15 +106,31 @@ void Stage::engine(){
 //    cout << "Totaltime: " << totalTime << endl;
 }
 
+int Stage::getDistance_X(){
+    return ceil(distance_X);
+}
+
 vector<string> Stage::getBird()
 {
     vector<string> bird(5);
-    bird[0] = "     /^``^\\";
-    bird[1] = "   \\/   \\_/\\";
-    bird[2] = "  --1 .  00|";
-    bird[3] = "   /1    ->|";
-    bird[4] = "     \\_____/";
+    bird[0] = "   /^``^\\";
+    bird[1] = " \\/   \\_/\\";
+    bird[2] = "--1 .--00|";
+    bird[3] = " /1    ->|";
+    bird[4] = "   \\_____/";
     return bird;
+}
+
+vector<string> Stage::getEnemy()
+{
+    vector<string> enemy(5);
+    enemy[0] = "  |||||||  ";
+    enemy[1] = " /__   __\\";
+    enemy[2] = "<| ¤\\ /¤ |>";
+    enemy[3] = " |   U   |";
+    enemy[4] = "  \\_`--'_/ ";
+
+    return enemy;
 }
 
 vector<float> Stage::getVector_Y()
