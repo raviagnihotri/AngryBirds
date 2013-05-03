@@ -130,7 +130,43 @@ void Game::welcomeScr()
     box(top, 0, 0);
     box(btm, 0, 0);
 
-    printScenery();
+    int tmpspeed = 0;
+    int tmpangle = 0;
+
+    do
+    {
+        mvwaddstr(btm,1,1, "Trykk en tast for å begynne!");
+        while( tmpspeed > 10 && tmpspeed < 90 && tmpangle > 5 && tmpangle < 85)
+        {
+            tmpspeed = randomNumber(90);
+            tmpangle = randomNumber(85);
+        }
+        Stage *stage = new Stage(randomNumber(3));
+        vector<string> bird = stage->getBird();
+
+        stage->setUserInput((float) tmpspeed, (float) tmpangle, 1); //regner ut bane/trajectory
+        int atgrass = ((topy-2)-bird.size()); //bakkenivå
+        for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
+        {
+            wclear(top);
+
+            wattron(top, A_BOLD | COLOR_PAIR(1));
+            //Printe ut logoen i midten
+            for(int i = 0; i < logo.size(); i++)
+                mvwaddstr(top,i+9,(topx-55)/2, logo[i].c_str());
+            wattroff(top, COLOR_PAIR(1));
+
+            for(int j = 0; j < bird.size(); j++)
+                mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
+            printScenery();
+            wrefresh(top);
+            speed > 30 ? usleep(100000 * (1+((speed-30))/100)) : usleep(100000);
+        }
+        delete stage;
+
+    } while(getch());
+
+    wclear(top);
 
     wattron(top, A_BOLD | COLOR_PAIR(1));
     //Printe ut logoen i midten
@@ -138,6 +174,7 @@ void Game::welcomeScr()
         mvwaddstr(top,i+9,(topx-55)/2, logo[i].c_str());
     wattroff(top, COLOR_PAIR(1));
 
+    printScenery();
 
     //Printe ut menyen
     mvwaddstr(btm,0,1, "Meny");
@@ -262,24 +299,28 @@ void Game::startStage(int in)
         int in = getch();
         if(in == KEY_UP) //Juster fart opp
         {
+            mvwprintw(btm, 1, 1, "                ");
             if(speed < 200) speed++;
             mvwprintw(btm, 1, 1, "Speed: %d", speed);
             wrefresh(btm);
         }
         else if(in == KEY_DOWN) //...ned
         {
+            mvwprintw(btm, 1, 1, "                ");
             if(speed > 1) speed--;
             mvwprintw(btm, 1, 1, "Speed: %d", speed);
             wrefresh(btm);
         }
-        else if(in == KEY_LEFT) //Juster vinkel ned
+        else if(in == KEY_RIGHT) //Juster vinkel opp
         {
+            mvwprintw(btm, 2, 1, "                ");
             if(angle < 90) angle++;
             mvwprintw(btm, 2, 1, "Angle: %d", angle);
             wrefresh(btm);
         }
-        else if(in == KEY_RIGHT) //...opp
+        else if(in == KEY_LEFT) //...ned
         {
+            mvwprintw(btm, 2, 1, "                ");
             if(angle > 1) angle--;
             mvwprintw(btm, 2, 1, "Angle: %d", angle);
             wrefresh(btm);
