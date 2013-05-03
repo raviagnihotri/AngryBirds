@@ -8,15 +8,15 @@ class Stage
 {
     public:
         Stage(int); //hvilket stage
-        virtual ~Stage();
+        virtual ~Stage();//Velger tyngdekraft
         void setupStage();
-        void setUserInput(float, float, float);  //speed, angle, height
-        int getEnemyDistance();
-        int getDistance_X();
-        void engine();
-        bool gameOver();
-        bool enemyHit();
-        void resetEnemyHP();
+        void setUserInput(float, float, float);  //speed, angle, height  --- setter fart, vinkel og høyde(ikke implementert funksjon)
+        int getEnemyDistance();//Distansen til enemy som er satt statisk
+        int getDistance_X();//Henter ut distansen til X koordinatet
+        void engine();//Fysikkmotoren så vi kan se og beregne banen til fuglen med en gitt vinkel og fart
+        bool gameOver();//Om enemy er ødelagt eller ikke
+        bool enemyHit();//Håndterer når man treffer eller bommer på enemy
+        void resetEnemyHP();//Resetter enemy HP til 100
         int getEnemyHP();
         bool getHeadshot();
         vector<string> getBird();

@@ -17,6 +17,7 @@ Stage::Stage(int st)
     headShot = false;
 }
 
+//Velger tyngdekraft
 void Stage::setupStage(){
     if(stage == 1){
         gravity = 9.81;
@@ -29,6 +30,7 @@ void Stage::setupStage(){
     }
 }
 
+//setter fart, vinkel og høyde(ikke implementert funksjon)
 void Stage::setUserInput(float s, float a, float h){
     speed = s;
     angle = a;
@@ -36,6 +38,7 @@ void Stage::setUserInput(float s, float a, float h){
     engine();
 }
 
+//Håndterer når man treffer eller bommer på enemy
 bool Stage::enemyHit(){
     int ceil_distanceX = ceil(distance_X);
     if(ceil_distanceX == getEnemyDistance()){
@@ -59,14 +62,17 @@ bool Stage::enemyHit(){
     return false;
 }
 
+//Om enemy er ødelagt eller ikke
 bool Stage::gameOver(){
         return enemyObject->getHP() <= 0? true : false;
 }
 
+//Distansen til enemy som er satt statisk
 int Stage::getEnemyDistance(){
     return enemyDistance;
 }
 
+//Resetter enemy HP til 100
 void Stage::resetEnemyHP(){
     enemyObject->resetHP();
 }
@@ -79,6 +85,7 @@ bool Stage::getHeadshot(){
     return headShot;
 }
 
+//Fysikkmotoren så vi kan se og beregne banen til fuglen med en gitt vinkel og fart
 void Stage::engine(){
 
     angle = angle * (2 * 3.14 / 360);
@@ -106,6 +113,7 @@ void Stage::engine(){
 //    cout << "Totaltime: " << totalTime << endl;
 }
 
+//Henter ut distansen til X koordinatet
 int Stage::getDistance_X(){
     return ceil(distance_X);
 }
