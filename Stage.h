@@ -18,6 +18,7 @@ class Stage
         bool enemyHit();
         void resetEnemyHP();
         int getEnemyHP();
+        bool getHeadshot();
         vector<string> getBird();
         vector<string> getEnemy();
         vector<float> getVector_Y();
@@ -45,6 +46,8 @@ class Stage
         float time_Y;
         float time_X;
         float totalDistance;
+
+        bool headShot;
 
         vector<float> vectorY;
 };
