@@ -12,9 +12,6 @@ void Enemy::sideShot(){
     hp = hp - 50;
 }
 
-//void Enemy::updateEnemyHP(){
-//}
-
 void Enemy::resetHP(){
     hp = 100;
 }

@@ -22,6 +22,7 @@ vector<string> logo(14);
 vector<string> sun(7);
 vector<string> hs(5);
 vector<string> ns(5);
+vector<string> text(11);
 
 void Game::initLogo()
 {
@@ -68,6 +69,21 @@ void Game::noobShot()
     ns[2] = " |  ``..      | |          | |          | |____.'_                   .''       |_________| |          |      |       ";
     ns[3] = " |      ``..  | |          | |          | |       ~.              ..'          |         | |          |      |       ";
     ns[4] = " |          ``|  `.______.'   `.______.'  |_______.'        ....''             |         |  `.______.'       |  ";
+}
+
+void Game::helpText()
+{
+    text[0] = "Velkommen til Angry Nerds - spillet som er en skamfull rip-off av det mindre kjente spillet Angry...Birds.";
+    text[1] = "==========================================================================================================";
+    text[2] = "1. Du velger først et brett/en planet";
+    text[3] = "2. Deretter bruker du piltastene til å sette ønsket fart og vinkel på fuglen";
+    text[4] = "3. Trykk 'A' for å slippe løs fuglen";
+    text[5] = "4. Se fuglens praktfulle ferd mot den stygge nerden";
+    text[6] = "5. Om du treffer rett i knollen på nerden, dreper du han umiddelbart";
+    text[7] = "   Treffer du ved siden av mister nerden 50 Health Points";
+    text[8] = "   Bommer du...da har du bommet";
+    text[9] = "";
+    text[10] = "--Trykk en tast for å se den fine fuglen fly--";
 }
 
 int Game::randomNumber(int s)
@@ -144,6 +160,9 @@ void Game::initScreen()
 
 void Game::welcomeScr()
 {
+    headShot();
+    noobShot();
+    helpText();
     wattroff(top, A_BOLD);
     wclear(top);
     wclear(btm);
@@ -193,7 +212,46 @@ void Game::welcomeScr()
             break;
         }
     }
+    mvwaddstr(btm,1,1, "Trykk en tast for å begynne! (om du har gjort det, må du vente til fuglen har landet");
+    wrefresh(btm);
 
+    while(true)
+    {
+        int ranstart = randomNumber(70);
+        tmpspeed = randomNumber(27);
+        tmpangle = randomNumber(70);
+
+        Stage *stage = new Stage(randomNumber(2)+1);
+        vector<string> bird = stage->getBird();
+
+        if(key = getch() == ERR)
+        {
+            stage->setUserInput((float) tmpspeed, (float) tmpangle, 1); //regner ut bane/trajectory
+            int atgrass = ((topy-2)-bird.size()); //bakkenivå
+            for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
+            {
+                wclear(top);
+
+                wattron(top, A_BOLD | COLOR_PAIR(1));
+                //Printe ut logoen i midten
+                for(int j = 0; j < logo.size(); j++)
+                    mvwaddstr(top,j+9,(topx-55)/2, logo[j].c_str());
+                wattroff(top, COLOR_PAIR(1));
+
+                for(int k = 0; k < bird.size(); k++)
+                    mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+k, i+ranstart, bird[k].c_str());
+                printScenery();
+                wrefresh(top);
+                usleep(60000);
+            }
+            delete stage;
+        }
+        else
+        {
+            delete stage;
+            break;
+        }
+    }
     wclear(top);
     wclear(btm);
     box(top, 0, 0);
@@ -231,9 +289,9 @@ void Game::userInput()
             wclear(btm);
             box(btm, 0, 0);
             mvwaddstr(btm,0,1, "Select stage:");
-            mvwaddstr(btm,1,1, "1 - The Earth");
-            mvwaddstr(btm,2,1, "2 - The Moon");
-            mvwaddstr(btm,3,1, "3 - Jupiter");
+            mvwaddstr(btm,1,1, "1 - The Earth  (Regular gravity)");
+            mvwaddstr(btm,2,1, "2 - The Moon  (Low gravity)");
+            mvwaddstr(btm,3,1, "3 - Jupiter  (High gravity)");
             mvwaddstr(btm,4,1, "4 - Abort");
             wrefresh(btm);
 
@@ -276,12 +334,14 @@ void Game::userInput()
         else if(in == 51) //Hjelp
         {
             wclear(top);
+            printScenery();
             box(top, 0, 0);
-            mvwaddstr(btm,1,1, "Her det kommer det litt hjelp");
-            mvwaddstr(btm,2,1, "Dette er andre linje");
-            mvwaddstr(btm,3,1, "Og tredje...");
-            mvwaddstr(btm,4,1, "Til slutt den siste!");
+
+            wattron(top, A_BOLD | COLOR_PAIR(1));
+            for(int i=0; i < text.size(); i++)
+                mvwaddstr(top, i+10, 25, text[i].c_str());
             wrefresh(top);
+            nodelay(stdscr, FALSE);
             getch();
             welcomeScr();
             break;
@@ -379,6 +439,8 @@ void Game::startStage(int in)
                     printScenery();
                     if(stage->getHeadshot()){
                         //print ut headshotlogo
+                        for(int j = 0; j < hs.size(); j++)
+                            mvwaddstr(top,j+9,(topx-55)/2, hs[j].c_str());
                     }
                     else{
                         //print ut DEADlogo
@@ -411,6 +473,8 @@ void Game::startStage(int in)
             else if(!stage->enemyHit()){
                     wclear(top);
                     printScenery();
+                    for(int j = 0; j < ns.size(); j++)
+                        mvwaddstr(top,j+9,(topx-55)/2, ns[j].c_str());
                     for(int j = 0; j < enemy.size(); j++)
                     {
                         if(j == 3) enemy[3] = "<| -MISS |>";
@@ -423,13 +487,7 @@ void Game::startStage(int in)
             }
         }
     }
-
-//    }while(!stage->gameOver());
     delete stage;
-//    welcomeScr();
-//    wrefresh(top);
-//    wrefresh(btm);
-//    userInput();
 }
 
 void Game::finish(){

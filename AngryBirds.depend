@@ -4,7 +4,11 @@
 
 1367426836 /home/ravi/AngryBirds/Bird.h
 
+<<<<<<< HEAD
 1367584847 source:/home/ravi/AngryBirds/Game.cpp
+=======
+1367591304 source:/home/ravi/AngryBirds/Game.cpp
+>>>>>>> ceec1b1d6003bcc65701d68b65ae7c5beeaf466c
 	<iostream>
 	"Game.h"
 	"Stage.h"
@@ -15,6 +19,7 @@
 	<sstream>
 	<cstdlib>
 
+<<<<<<< HEAD
 1367588214 /home/ravi/AngryBirds/Game.h
 
 1367586808 /home/ravi/AngryBirds/Stage.h
@@ -22,6 +27,15 @@
 	<string>
 
 1367586808 source:/home/ravi/AngryBirds/Stage.cpp
+=======
+1367590120 /home/ravi/AngryBirds/Game.h
+
+1367591583 /home/ravi/AngryBirds/Stage.h
+	<vector>
+	<string>
+
+1367591583 source:/home/ravi/AngryBirds/Stage.cpp
+>>>>>>> ceec1b1d6003bcc65701d68b65ae7c5beeaf466c
 	"Stage.h"
 	"Bird.h"
 	"Enemy.h"

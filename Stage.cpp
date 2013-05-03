@@ -22,10 +22,10 @@ void Stage::setupStage(){
         gravity = 9.81;
     }
     else if(stage == 2){
-        gravity = 8.15;
+        gravity = 20.15;
     }
     else if(stage == 3){
-        gravity = 14.0;
+        gravity = 2.0;
     }
 }
 

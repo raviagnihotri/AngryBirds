@@ -9,6 +9,7 @@ class Game
         void initSun();
         void headShot();
         void noobShot();
+        void helpText();
         int randomNumber(int s);
         void printScenery();
         void initScreen();
