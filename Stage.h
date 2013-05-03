@@ -17,6 +17,7 @@ class Stage
         bool gameOver();
         bool enemyHit();
         void resetEnemyHP();
+        int getEnemyHP();
         vector<string> getBird();
         vector<float> getVector_Y();
     protected:
