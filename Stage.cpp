@@ -121,6 +121,18 @@ vector<string> Stage::getBird()
     return bird;
 }
 
+vector<string> Stage::getEnemy()
+{
+    vector<string> enemy(5);
+    enemy[0] = "  |||||||  ";
+    enemy[1] = " /__   __\\";
+    enemy[2] = "<| ¤\\ /¤ |>";
+    enemy[3] = " |   U   |";
+    enemy[4] = "  \\_`--'_/ ";
+
+    return enemy;
+}
+
 vector<float> Stage::getVector_Y()
 {
     return vectorY;

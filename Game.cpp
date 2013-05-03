@@ -20,6 +20,8 @@ int toprow, topx, topy;
 
 vector<string> logo(14);
 vector<string> sun(7);
+vector<string> hs(5);
+vector<string> ns(5);
 
 void Game::initLogo()
 {
@@ -50,6 +52,24 @@ void Game::initSun()
     sun[6] = "#";
 }
 
+void Game::headShot()
+{
+    hs[0] = "              ____                                                                           ______                 ";
+    hs[1] = " |         | |                  .'.       |``````.                     ..'''' |         |  .~      ~.  `````|`````  ";
+    hs[2] = " |_________| |______          .''```.     |       |                 .''       |_________| |          |      |       ";
+    hs[3] = " |         | |              .'       `.   |       |              ..'          |         | |          |      |       ";
+    hs[4] = " |         | |___________ .'           `. |......'         ....''             |         |  `.______.'       |       ";
+}
+
+void Game::noobShot()
+{
+    ns[0] = "                   ______       ______     ____                                               ______                 ";
+    ns[1] = " |..          |  .~      ~.   .~      ~.  |    ~.                       ..'''' |         |  .~      ~.  `````|`````  ";
+    ns[2] = " |  ``..      | |          | |          | |____.'_                   .''       |_________| |          |      |       ";
+    ns[3] = " |      ``..  | |          | |          | |       ~.              ..'          |         | |          |      |       ";
+    ns[4] = " |          ``|  `.______.'   `.______.'  |_______.'        ....''             |         |  `.______.'       |  ";
+}
+
 int Game::randomNumber(int s)
 {
     return (rand()%s);
@@ -57,6 +77,8 @@ int Game::randomNumber(int s)
 
 void Game::printScenery()
 {
+    box(top, 0, 0);
+    box(btm, 0, 0);
     wattron(top, A_BOLD | COLOR_PAIR(4));
     //Printe ut sola...
     for(int i = 0; i < sun.size(); i++)
@@ -73,8 +95,6 @@ void Game::printScenery()
         wattron(top, A_BOLD | COLOR_PAIR(8+(i%3)));
         mvwaddstr(top,topy-3,randomNumber(topx-1), "*");
     }
-
-
     wattroff(top, COLOR_PAIR(4));
 }
 
@@ -133,40 +153,51 @@ void Game::welcomeScr()
     int tmpspeed = 0;
     int tmpangle = 0;
 
-    do
+    int key;
+    nodelay(stdscr, TRUE);
+
+    while(true)
     {
         mvwaddstr(btm,1,1, "Trykk en tast for å begynne!");
-        while( tmpspeed > 10 && tmpspeed < 90 && tmpangle > 5 && tmpangle < 85)
-        {
-            tmpspeed = randomNumber(90);
-            tmpangle = randomNumber(85);
-        }
-        Stage *stage = new Stage(randomNumber(3));
+        tmpspeed = randomNumber(35);
+        tmpangle = randomNumber(70);
+
+        Stage *stage = new Stage(randomNumber(2)+1);
         vector<string> bird = stage->getBird();
 
-        stage->setUserInput((float) tmpspeed, (float) tmpangle, 1); //regner ut bane/trajectory
-        int atgrass = ((topy-2)-bird.size()); //bakkenivå
-        for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
+        if(key = getch() == ERR)
         {
-            wclear(top);
+            stage->setUserInput((float) tmpspeed, (float) tmpangle, 1); //regner ut bane/trajectory
+            int atgrass = ((topy-2)-bird.size()); //bakkenivå
+            for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
+            {
+                wclear(top);
 
-            wattron(top, A_BOLD | COLOR_PAIR(1));
-            //Printe ut logoen i midten
-            for(int i = 0; i < logo.size(); i++)
-                mvwaddstr(top,i+9,(topx-55)/2, logo[i].c_str());
-            wattroff(top, COLOR_PAIR(1));
+                wattron(top, A_BOLD | COLOR_PAIR(1));
+                //Printe ut logoen i midten
+                for(int i = 0; i < logo.size(); i++)
+                    mvwaddstr(top,i+9,(topx-55)/2, logo[i].c_str());
+                wattroff(top, COLOR_PAIR(1));
 
-            for(int j = 0; j < bird.size(); j++)
-                mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
-            printScenery();
-            wrefresh(top);
-            speed > 30 ? usleep(100000 * (1+((speed-30))/100)) : usleep(100000);
+                for(int j = 0; j < bird.size(); j++)
+                    mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
+                printScenery();
+                wrefresh(top);
+                speed > 30 ? usleep(100000 * (1+((speed-30))/100)) : usleep(100000);
+            }
+            delete stage;
         }
-        delete stage;
-
-    } while(getch());
+        else
+        {
+            delete stage;
+            break;
+        }
+    }
 
     wclear(top);
+    wclear(btm);
+    box(top, 0, 0);
+    box(btm, 0, 0);
 
     wattron(top, A_BOLD | COLOR_PAIR(1));
     //Printe ut logoen i midten
@@ -269,6 +300,7 @@ void Game::startStage(int in)
 {
     Stage *stage = new Stage(in);
     vector<string> bird = stage->getBird();
+    vector<string> enemy = stage->getEnemy();
     atgrass = ((topy-2)-bird.size()); //bakkenivå
     speed = 10;
     angle = 30;
@@ -279,13 +311,11 @@ void Game::startStage(int in)
     wrefresh(top);
     wrefresh(btm);
 
-    //Printer ut fuglen før launch
+    //Printer ut fuglen og enemy før launch
     for(int i = 0; i < bird.size(); i++)
     {
         mvwaddstr(top, atgrass+i, 1, bird[i].c_str());
-        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
-        mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "X");
-        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+        mvwaddstr(top, atgrass+i, stage->getEnemyDistance()-6, enemy[i].c_str());
     }
     printScenery();
 
@@ -325,20 +355,20 @@ void Game::startStage(int in)
             mvwprintw(btm, 2, 1, "Angle: %d", angle);
             wrefresh(btm);
         }
-        else if(in == 97) //Lift-off!
+        else if(in == 97) //Liftoff!
         {
             stage->setUserInput((float) speed, (float) angle, 1); //regner ut bane/trajectory
             wrefresh(top);
             for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
             {
                 wclear(top);
-                for(int j = 0; j < bird.size(); j++){
-                        mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
-                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
-                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "X");
-                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
-                }
                 printScenery();
+
+                for(int k = 0; k < bird.size(); k++)
+                {
+                    mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+k, i+2, bird[k].c_str());
+                    mvwaddstr(top, atgrass+k, stage->getEnemyDistance()-6, enemy[k].c_str());
+                }
                 wrefresh(top);
                 speed > 30 ? usleep(100000 * (1+((speed-30))/100)) : usleep(100000);
                 //if( i!= stage->getVector_Y().size()-1) wclear(top);
@@ -346,32 +376,42 @@ void Game::startStage(int in)
             if(stage->enemyHit()){
                 if(stage->gameOver()){
                     wclear(top);
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "dead");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+                    printScenery();
+                    for(int j = 0; j < enemy.size(); j++)
+                    {
+                        if(j == 3) enemy[3] = "<| -DEAD |>";
+                        mvwaddstr(top, atgrass+j, stage->getEnemyDistance()-6, enemy[j].c_str());
+                    }
+
                     wrefresh(top);
                     finish();
                     delete stage;
-                    sleep(1);
+                    sleep(2);
                 }
                 else{
                     wclear(top);
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "-50HP");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+                    printScenery();
+                    for(int j = 0; j < enemy.size(); j++)
+                    {
+                        if(j == 3) enemy[3] = "<| -50HP |>";
+                        mvwaddstr(top, atgrass+j, stage->getEnemyDistance()-6, enemy[j].c_str());
+                    }
                     wrefresh(top);
-                    sleep(1);
+                    sleep(2);
                     delete stage;
                     startStage(stagePick);
                 }
             }
             else if(!stage->enemyHit()){
                     wclear(top);
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "miss");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+                    printScenery();
+                    for(int j = 0; j < enemy.size(); j++)
+                    {
+                        if(j == 3) enemy[3] = "<| -MISS |>";
+                        mvwaddstr(top, atgrass+j, stage->getEnemyDistance()-6, enemy[j].c_str());
+                    }
                     wrefresh(top);
-                    sleep(1);
+                    sleep(2);
                     delete stage;
                     startStage(stagePick);
             }

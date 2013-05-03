@@ -17,6 +17,7 @@ class Stage
         bool gameOver();
         bool enemyHit();
         vector<string> getBird();
+        vector<string> getEnemy();
         vector<float> getVector_Y();
     protected:
     private:
