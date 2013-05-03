@@ -18,6 +18,7 @@ class Game
     public:
         Game();
         virtual ~Game();
+        int atgrass;
         int speed;
         int angle;
 };
