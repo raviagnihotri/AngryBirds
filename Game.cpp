@@ -22,6 +22,7 @@ vector<string> logo(14);
 vector<string> sun(7);
 vector<string> hs(5);
 vector<string> ns(5);
+vector<string> text(10);
 
 void Game::initLogo()
 {
@@ -68,6 +69,21 @@ void Game::noobShot()
     ns[2] = " |  ``..      | |          | |          | |____.'_                   .''       |_________| |          |      |       ";
     ns[3] = " |      ``..  | |          | |          | |       ~.              ..'          |         | |          |      |       ";
     ns[4] = " |          ``|  `.______.'   `.______.'  |_______.'        ....''             |         |  `.______.'       |  ";
+}
+
+void Game::helpText()
+{
+    text[0] = "Velkommen til Angry Nerds - spillet som er en skamfull rip-off av det mindre kjente spillet Angry...Birds.";
+    text[1] = "==========================================================================================================";
+    text[2] = "1. Du velger først et brett/en planet";
+    text[3] = "2. Deretter bruker du piltastene til å sette ønsket fart og vinkel på fuglen";
+    text[4] = "3. Trykk 'A' for å slippe løs fuglen";
+    text[5] = "4. Se fuglens praktfulle ferd mot den stygge nerden";
+    text[6] = "5. Om du treffer rett i knollen på nerden, dreper du han umiddelbart";
+    text[7] = "   Treffer du ved siden av mister nerden 50 Health Points";
+    text[8] = "   Bommer du...da har du bommet";
+    text[9] = "";
+    text[10] = "--Trykk en tast for å se den fine fuglen fly--";
 }
 
 int Game::randomNumber(int s)
@@ -155,11 +171,13 @@ void Game::welcomeScr()
 
     int key;
     nodelay(stdscr, TRUE);
+    mvwaddstr(btm,1,1, "Trykk en tast for å begynne! (om du har gjort det, må du vente til fuglen har landet");
+    wrefresh(btm);
 
     while(true)
     {
-        mvwaddstr(btm,1,1, "Trykk en tast for å begynne!");
-        tmpspeed = randomNumber(35);
+        int ranstart = randomNumber(70);
+        tmpspeed = randomNumber(27);
         tmpangle = randomNumber(70);
 
         Stage *stage = new Stage(randomNumber(2)+1);
@@ -175,15 +193,15 @@ void Game::welcomeScr()
 
                 wattron(top, A_BOLD | COLOR_PAIR(1));
                 //Printe ut logoen i midten
-                for(int i = 0; i < logo.size(); i++)
-                    mvwaddstr(top,i+9,(topx-55)/2, logo[i].c_str());
+                for(int j = 0; j < logo.size(); j++)
+                    mvwaddstr(top,j+9,(topx-55)/2, logo[j].c_str());
                 wattroff(top, COLOR_PAIR(1));
 
-                for(int j = 0; j < bird.size(); j++)
-                    mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
+                for(int k = 0; k < bird.size(); k++)
+                    mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+k, i+ranstart, bird[k].c_str());
                 printScenery();
                 wrefresh(top);
-                speed > 30 ? usleep(100000 * (1+((speed-30))/100)) : usleep(100000);
+                usleep(60000);
             }
             delete stage;
         }
@@ -276,12 +294,14 @@ void Game::userInput()
         else if(in == 51) //Hjelp
         {
             wclear(top);
+            printScenery();
             box(top, 0, 0);
-            mvwaddstr(btm,1,1, "Her det kommer det litt hjelp");
-            mvwaddstr(btm,2,1, "Dette er andre linje");
-            mvwaddstr(btm,3,1, "Og tredje...");
-            mvwaddstr(btm,4,1, "Til slutt den siste!");
+
+            wattron(top, A_BOLD | COLOR_PAIR(1));
+            for(int i=0; i < text.size(); i++)
+                mvwaddstr(top, i+10, 25, text[i].c_str());
             wrefresh(top);
+            nodelay(stdscr, FALSE);
             getch();
             welcomeScr();
             break;
