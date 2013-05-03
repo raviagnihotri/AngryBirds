@@ -397,10 +397,16 @@ void Game::startStage(int in)
                 if(stage->gameOver()){
                     wclear(top);
                     printScenery();
-                    for(int j = 0; j < enemy.size(); j++)
-                    {
-                        if(j == 3) enemy[3] = "<| -DEAD |>";
-                        mvwaddstr(top, atgrass+j, stage->getEnemyDistance()-6, enemy[j].c_str());
+                    if(stage->getHeadshot()){
+                        //print ut headshotlogo
+                    }
+                    else{
+                        //print ut DEADlogo
+                        for(int j = 0; j < enemy.size(); j++)
+                        {
+                            if(j == 3) enemy[3] = "<| -DEAD |>";
+                            mvwaddstr(top, atgrass+j, stage->getEnemyDistance()-6, enemy[j].c_str());
+                        }
                     }
                     wrefresh(top);
                     stage->resetEnemyHP();
@@ -410,6 +416,7 @@ void Game::startStage(int in)
                 else{
                     wclear(top);
                     printScenery();
+                    //print ut noobshot logo
                     for(int j = 0; j < enemy.size(); j++)
                     {
                         if(j == 3) enemy[3] = "<| -50HP |>";

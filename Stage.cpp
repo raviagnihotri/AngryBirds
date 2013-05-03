@@ -14,6 +14,7 @@ Stage::Stage(int st)
     stage = st;
     setupStage();
     birdObject = new Bird();
+    headShot = false;
 }
 
 void Stage::setupStage(){
@@ -38,8 +39,10 @@ void Stage::setUserInput(float s, float a, float h){
 bool Stage::enemyHit(){
     int ceil_distanceX = ceil(distance_X);
     if(ceil_distanceX == getEnemyDistance()){
-        if(enemyObject->getHP() != 0)
+        headShot = true;
+        if(enemyObject->getHP() != 0){
             enemyObject->headShot();
+        }
         return true;
     }
     if(ceil_distanceX < getEnemyDistance() && ceil_distanceX > getEnemyDistance()-5){
@@ -70,6 +73,10 @@ void Stage::resetEnemyHP(){
 
 int Stage::getEnemyHP(){
     enemyObject->getHP();
+}
+
+bool Stage::getHeadshot(){
+    return headShot;
 }
 
 void Stage::engine(){
@@ -108,7 +115,7 @@ vector<string> Stage::getBird()
     vector<string> bird(5);
     bird[0] = "   /^``^\\";
     bird[1] = " \\/   \\_/\\";
-    bird[2] = "--1 .  00|";
+    bird[2] = "--1 .--00|";
     bird[3] = " /1    ->|";
     bird[4] = "   \\_____/";
     return bird;
