@@ -22,7 +22,7 @@ vector<string> logo(14);
 vector<string> sun(7);
 vector<string> hs(5);
 vector<string> ns(5);
-vector<string> text(10);
+vector<string> text(11);
 
 void Game::initLogo()
 {
@@ -160,6 +160,9 @@ void Game::initScreen()
 
 void Game::welcomeScr()
 {
+    headShot();
+    noobShot();
+    helpText();
     wattroff(top, A_BOLD);
     wclear(top);
     wclear(btm);
@@ -398,7 +401,8 @@ void Game::startStage(int in)
                     wclear(top);
                     printScenery();
                     if(stage->getHeadshot()){
-                        //print ut headshotlogo
+                        for(int j = 0; j < hs.size(); j++)
+                            mvwaddstr(top,j+9,(topx-55)/2, hs[j].c_str());
                     }
                     else{
                         //print ut DEADlogo
@@ -416,7 +420,6 @@ void Game::startStage(int in)
                 else{
                     wclear(top);
                     printScenery();
-                    //print ut noobshot logo
                     for(int j = 0; j < enemy.size(); j++)
                     {
                         if(j == 3) enemy[3] = "<| -50HP |>";
@@ -431,6 +434,8 @@ void Game::startStage(int in)
             else if(!stage->enemyHit()){
                     wclear(top);
                     printScenery();
+                    for(int j = 0; j < ns.size(); j++)
+                        mvwaddstr(top,j+9,(topx-55)/2, ns[j].c_str());
                     for(int j = 0; j < enemy.size(); j++)
                     {
                         if(j == 3) enemy[3] = "<| -MISS |>";
