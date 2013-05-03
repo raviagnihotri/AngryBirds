@@ -232,120 +232,122 @@ void Game::startStage(int in)
 {
     Stage *stage = new Stage(in);
     vector<string> bird = stage->getBird();
-    atgrass = ((topy-2)-bird.size()); //bakkenivå
-    speed = 10;
-    angle = 30;
-    wclear(top);
-    wclear(btm);
-    box(top, 0, 0);
-    box(btm, 0, 0);
-    wrefresh(top);
-    wrefresh(btm);
+//    do{
+        atgrass = ((topy-2)-bird.size()); //bakkenivå
+        speed = 10;
+        angle = 30;
+        wclear(top);
+        wclear(btm);
+        box(top, 0, 0);
+        box(btm, 0, 0);
+        wrefresh(top);
+        wrefresh(btm);
 
-    //Printer ut fuglen før launch
-    for(int i = 0; i < bird.size(); i++)
-    {
-        mvwaddstr(top, atgrass+i, 1, bird[i].c_str());
-        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
-        mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "X");
-        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
-    }
-    printScenery();
+        //Printer ut fuglen før launch
+        for(int i = 0; i < bird.size(); i++)
+        {
+            mvwaddstr(top, atgrass+i, 1, bird[i].c_str());
+            mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
+            mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "X");
+            mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+        }
+        printScenery();
 
-    mvwprintw(btm, 1, 1, "Speed: %d", speed);
-    mvwprintw(btm, 2, 1, "Angle: %d", angle);
-    wrefresh(top);
-    wrefresh(btm);
+        mvwprintw(btm, 1, 1, "Speed: %d", speed);
+        mvwprintw(btm, 2, 1, "Angle: %d", angle);
+        wrefresh(top);
+        wrefresh(btm);
 
-    while(true)
-    {
-        int in = getch();
-        if(in == KEY_UP) //Juster fart opp
+        while(true)
         {
-            if(speed < 200) speed++;
-            mvwprintw(btm, 1, 1, "Speed: %d", speed);
-            wrefresh(btm);
-        }
-        else if(in == KEY_DOWN) //...ned
-        {
-            if(speed > 1) speed--;
-            mvwprintw(btm, 1, 1, "Speed: %d", speed);
-            wrefresh(btm);
-        }
-        else if(in == KEY_LEFT) //Juster vinkel ned
-        {
-            if(angle < 90) angle++;
-            mvwprintw(btm, 2, 1, "Angle: %d", angle);
-            wrefresh(btm);
-        }
-        else if(in == KEY_RIGHT) //...opp
-        {
-            if(angle > 1) angle--;
-            mvwprintw(btm, 2, 1, "Angle: %d", angle);
-            wrefresh(btm);
-        }
-        else if(in == 97) //Lift-off!
-        {
-            stage->setUserInput((float) speed, (float) angle, 1); //regner ut bane/trajectory
-            wrefresh(top);
-            for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
+            int in = getch();
+            if(in == KEY_UP) //Juster fart opp
             {
-                wclear(top);
-                for(int j = 0; j < bird.size(); j++){
-                        mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
-                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
-                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "X");
-                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
-                }
-                printScenery();
+                if(speed < 200) speed++;
+                mvwprintw(btm, 1, 1, "Speed: %d", speed);
+                wrefresh(btm);
+            }
+            else if(in == KEY_DOWN) //...ned
+            {
+                if(speed > 1) speed--;
+                mvwprintw(btm, 1, 1, "Speed: %d", speed);
+                wrefresh(btm);
+            }
+            else if(in == KEY_LEFT) //Juster vinkel ned
+            {
+                if(angle < 90) angle++;
+                mvwprintw(btm, 2, 1, "Angle: %d", angle);
+                wrefresh(btm);
+            }
+            else if(in == KEY_RIGHT) //...opp
+            {
+                if(angle > 1) angle--;
+                mvwprintw(btm, 2, 1, "Angle: %d", angle);
+                wrefresh(btm);
+            }
+            else if(in == 97) //Lift-off!
+            {
+                stage->setUserInput((float) speed, (float) angle, 1); //regner ut bane/trajectory
                 wrefresh(top);
-                speed > 30 ? usleep(100000 * (1+((speed-30))/100)) : usleep(100000);
-                //if( i!= stage->getVector_Y().size()-1) wclear(top);
-            }
-            if(stage->enemyHit()){
-                if(stage->gameOver()){
+                for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
+                {
                     wclear(top);
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "dead");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+                    for(int j = 0; j < bird.size(); j++){
+                            mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
+                            mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
+                            mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "X");
+                            mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+                    }
+                    printScenery();
                     wrefresh(top);
-                    finish();
-                    delete stage;
-                    sleep(1);
+                    speed > 30 ? usleep(100000 * (1+((speed-30))/100)) : usleep(100000);
+                    //if( i!= stage->getVector_Y().size()-1) wclear(top);
                 }
-                else{
-                    wclear(top);
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "-50HP");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
-                    wrefresh(top);
-                    sleep(1);
-                    delete stage;
-                    startStage(stagePick);
+                if(stage->enemyHit()){
+                    if(stage->gameOver()){
+                        wclear(top);
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "dead");
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+                        wrefresh(top);
+                        stage->resetEnemyHP();
+                        delete stage;
+                        finish();
+                    }
+                    else{
+                        wclear(top);
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "-50HP");
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+                        wrefresh(top);
+                        sleep(1);
+                        delete stage;
+                        startStage(stagePick);
+                    }
                 }
-            }
-            else if(!stage->enemyHit()){
-                    wclear(top);
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "miss");
-                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
-                    wrefresh(top);
-                    sleep(1);
-                    delete stage;
-                    startStage(stagePick);
-            }
+                else if(!stage->enemyHit()){
+                        wclear(top);
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "miss");
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+                        wrefresh(top);
+                        sleep(1);
+                        delete stage;
+                        startStage(stagePick);
+                }
 
+            }
+            else if(in == KEY_F(1))
+            {
+                break;
+            }
         }
-        else if(in == KEY_F(1))
-        {
-            break;
-        }
-    }
+//    }while(!stage->gameOver());
     delete stage;
-    welcomeScr();
-    wrefresh(top);
-    wrefresh(btm);
-    userInput();
+//    welcomeScr();
+//    wrefresh(top);
+//    wrefresh(btm);
+//    userInput();
 }
 
 void Game::finish(){
@@ -354,9 +356,9 @@ void Game::finish(){
     //Printe ut menyen
     mvwaddstr(btm,0,1, "Meny");
     mvwaddstr(btm,1,1, "1. Start nytt spill");
-    mvwaddstr(btm,2,1, "2. Highscore");
-    mvwaddstr(btm,4,1, "4. Avslutt");
+    mvwaddstr(btm,3,1, "3. Avslutt");
     wrefresh(btm);
+    userInput();
 }
 
 Game::Game()

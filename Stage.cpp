@@ -6,13 +6,15 @@
 
 using namespace std;
 
-    Bird *birdObject = new Bird();
+    Bird *birdObject;// = new Bird();
     Enemy *enemyObject = new Enemy();
 
 Stage::Stage(int st)
 {
     stage = st;
     setupStage();
+    birdObject = new Bird();
+//    enemyObject = new Enemy();
 }
 
 void Stage::setupStage(){
@@ -52,8 +54,11 @@ bool Stage::enemyHit(){
 
 bool Stage::gameOver(){
 //        return enemyObject->getEnemyHP() == 0? false : true;
-    if(enemyObject->getEnemyHP() == 0)
+    if(enemyObject->getEnemyHP() == 0){
+//        delete birdObject;
+//        delete enemyObject;
         return true;
+    }
     return false;
 }
 //    if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX > getEnemyDistance()-5)){
@@ -77,6 +82,10 @@ bool Stage::gameOver(){
 
 int Stage::getEnemyDistance(){
     return enemyDistance;
+}
+
+void Stage::resetEnemyHP(){
+    enemyObject->resetHP();
 }
 
 void Stage::engine(){

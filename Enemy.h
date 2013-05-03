@@ -8,6 +8,7 @@ class Enemy
         Enemy(); //antTargets
         void updateEnemyHP();
         int getEnemyHP();
+        void resetHP();
         virtual ~Enemy();
     protected:
     private:
