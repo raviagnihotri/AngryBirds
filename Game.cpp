@@ -232,7 +232,7 @@ void Game::startStage(int in)
 {
     Stage *stage = new Stage(in);
     vector<string> bird = stage->getBird();
-    do{
+    atgrass = ((topy-2)-bird.size()); //bakkenivå
     speed = 10;
     angle = 30;
     wclear(top);
@@ -245,10 +245,10 @@ void Game::startStage(int in)
     //Printer ut fuglen før launch
     for(int i = 0; i < bird.size(); i++)
     {
-        mvwaddstr(top, ((topy-2)-bird.size())+i, 1, bird[i].c_str());
-        mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
-        mvwaddstr(top, 30, stage->getEnemyDistance(), "X");
-        mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
+        mvwaddstr(top, atgrass+i, 1, bird[i].c_str());
+        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
+        mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "X");
+        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
     }
     printScenery();
 
@@ -288,82 +288,59 @@ void Game::startStage(int in)
         {
             stage->setUserInput((float) speed, (float) angle, 1); //regner ut bane/trajectory
             wrefresh(top);
-            int atgrass = ((topy-2)-bird.size()); //bakkenivå
             for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
             {
                 wclear(top);
                 for(int j = 0; j < bird.size(); j++){
                         mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
-                        mvwaddstr(top, atgrass, stage->getEnemyDistance()-5, "[");
-                        mvwaddstr(top, atgrass, stage->getEnemyDistance(), "X");
-                        mvwaddstr(top, atgrass, stage->getEnemyDistance()+5, "]");
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "X");
+                        mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
                 }
                 printScenery();
                 wrefresh(top);
                 speed > 30 ? usleep(100000 * (1+((speed-30))/100)) : usleep(100000);
                 //if( i!= stage->getVector_Y().size()-1) wclear(top);
             }
-                if(stage->enemyHit()){
-                    if(stage->gameOver()){
-                        wclear(top);
-                        mvwaddstr(top, atgrass, stage->getEnemyDistance()-5, "[");
-                        mvwaddstr(top, atgrass, stage->getDistance_X(), "dead");
-                        mvwaddstr(top, atgrass, stage->getEnemyDistance()+5, "]");
-                        wrefresh(top);
-                        sleep(20);
-                    }
-                    else{
-                        wclear(top);
-                        mvwaddstr(top, atgrass, stage->getEnemyDistance()-5, "[");
-                        mvwaddstr(top, atgrass, stage->getDistance_X(), "-50HP");
-                        mvwaddstr(top, atgrass, stage->getEnemyDistance()+5, "]");
-                        wrefresh(top);
-//                        sleep(5);
-    //                    startStage(stagePick);
-                    }
+            if(stage->enemyHit()){
+                if(stage->gameOver()){
+                    wclear(top);
+                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
+                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "dead");
+                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+                    wrefresh(top);
+                    finish();
+                    delete stage;
+                    sleep(1);
                 }
-    //            if(!stage->gameOver()){
-    //                wclear(top);
-    //                mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
-    //                mvwaddstr(top, 30, stage->getEnemyDistance()-7, "BKAAAAA...dead");
-    //                mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
-    //                wrefresh(top);
-    //                finish();
-    //                sleep(20);
-    //            }
-    //            else if(stage->gameOver()){
-    //                wclear(top);
-    //                mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
-    //                mvwaddstr(top, 30, stage->getEnemyDistance()-2, "-50HP");
-    //                mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
-    //                wrefresh(top);
-    //                sleep(20);
-    ////                delete stage;
-    //                startStage(stagePick);
-    //            }
-                else
-                    break;
-    //                else
-    //                    break;
-
-    //            do{
-    //                stage->setUserInput((float) speed, (float) angle, 1);
-    //                for(int i = 0; i < stage->getVector_Y().size(); i++)
-    //                {
-    //                        mvwprintw(top, stage->getVector_Y().at(i)+30, i+2, "Angle: %d", angle);
-    //                        wrefresh(top);
-    //                        usleep(100000);
-    //                        if( i!= stage->getVector_Y().size()-1) wclear(top);
-    //                }
-    //            }while(!stage->gameCheck());
-
+                else{
+                    wclear(top);
+                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
+                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "-50HP");
+                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+                    wrefresh(top);
+                    sleep(1);
+                    delete stage;
+                    startStage(stagePick);
+                }
             }
-            else if(in == KEY_F(1))
-            {
-                break;
+            else if(!stage->enemyHit()){
+                    wclear(top);
+                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()-5, "[");
+                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance(), "miss");
+                    mvwaddstr(top, atgrass+4, stage->getEnemyDistance()+5, "]");
+                    wrefresh(top);
+                    sleep(1);
+                    delete stage;
+                    startStage(stagePick);
             }
+
         }
-    }while(!stage->gameOver());
+        else if(in == KEY_F(1))
+        {
+            break;
+        }
+    }
     delete stage;
     welcomeScr();
     wrefresh(top);
