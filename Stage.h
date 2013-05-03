@@ -16,6 +16,8 @@ class Stage
         void engine();
         bool gameOver();
         bool enemyHit();
+        void resetEnemyHP();
+        int getEnemyHP();
         vector<string> getBird();
         vector<string> getEnemy();
         vector<float> getVector_Y();

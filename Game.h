@@ -7,6 +7,8 @@ class Game
     private:
         void initLogo();
         void initSun();
+        void headShot();
+        void noobShot();
         int randomNumber(int s);
         void printScenery();
         void initScreen();

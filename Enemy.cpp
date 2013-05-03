@@ -4,11 +4,22 @@ Enemy::Enemy()
 {
 }
 
-void Enemy::updateEnemyHP(){
+void Enemy::headShot(){
+    hp = 0;
+}
+
+void Enemy::sideShot(){
     hp = hp - 50;
 }
 
-int Enemy::getEnemyHP(){
+//void Enemy::updateEnemyHP(){
+//}
+
+void Enemy::resetHP(){
+    hp = 100;
+}
+
+int Enemy::getHP(){
     return hp;
 }
 

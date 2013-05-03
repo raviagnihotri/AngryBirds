@@ -6,13 +6,14 @@
 
 using namespace std;
 
-    Bird *birdObject = new Bird();
+    Bird *birdObject;
     Enemy *enemyObject = new Enemy();
 
 Stage::Stage(int st)
 {
     stage = st;
     setupStage();
+    birdObject = new Bird();
 }
 
 void Stage::setupStage(){
@@ -36,14 +37,19 @@ void Stage::setUserInput(float s, float a, float h){
 
 bool Stage::enemyHit(){
     int ceil_distanceX = ceil(distance_X);
-    if(ceil_distanceX <= getEnemyDistance() && ceil_distanceX > getEnemyDistance()-5){
-        if(enemyObject->getEnemyHP() != 0)
-            enemyObject->updateEnemyHP();
+    if(ceil_distanceX == getEnemyDistance()){
+        if(enemyObject->getHP() != 0)
+            enemyObject->headShot();
         return true;
     }
-    else if(ceil_distanceX > getEnemyDistance() && ceil_distanceX <= getEnemyDistance()+5){
-        if(enemyObject->getEnemyHP() != 0)
-            enemyObject->updateEnemyHP();
+    if(ceil_distanceX < getEnemyDistance() && ceil_distanceX > getEnemyDistance()-5){
+        if(enemyObject->getHP() != 0)
+            enemyObject->sideShot();
+        return true;
+    }
+    else if(ceil_distanceX > getEnemyDistance() && ceil_distanceX < getEnemyDistance()+5){
+        if(enemyObject->getHP() != 0)
+            enemyObject->sideShot();
         return true;
     }
 
@@ -51,32 +57,19 @@ bool Stage::enemyHit(){
 }
 
 bool Stage::gameOver(){
-//        return enemyObject->getEnemyHP() == 0? false : true;
-    if(enemyObject->getEnemyHP() == 0)
-        return true;
-    return false;
+        return enemyObject->getHP() <= 0? true : false;
 }
-//    if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX > getEnemyDistance()-5)){
-//        enemyObject->updateEnemyHP();
-//        if(enemyCheck()){
-//            return true;
-//        }
-//
-//    }
-//    else if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX < getEnemyDistance()+5)){
-//        enemyObject->updateEnemyHP();
-//        if(enemyCheck()){
-//            return true;
-//        }
-//    }
-//    return false;
-
-//bool Stage::enemyCheck(){
-//        return enemyObject->getEnemyHP() == 0? false : true;
-//}
 
 int Stage::getEnemyDistance(){
     return enemyDistance;
+}
+
+void Stage::resetEnemyHP(){
+    enemyObject->resetHP();
+}
+
+int Stage::getEnemyHP(){
+    enemyObject->getHP();
 }
 
 void Stage::engine(){
