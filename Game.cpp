@@ -137,27 +137,29 @@ void Game::userInput()
 
             while(true)
             {
-                stagePick = getch();
-//                int in2 = getch();
-                if(stagePick == 49)
+                int in2 = getch();
+                if(in2 == 49)
                 {
+                    stagePick = 1;
                     startStage(1);
                     welcomeScr();
                     break;
                 }
-                else if(stagePick == 50)
+                else if(in2 == 50)
                 {
+                    stagePick = 2;
                     startStage(2);
                     welcomeScr();
                     break;
                 }
-                else if(stagePick == 51)
+                else if(in2 == 51)
                 {
+                    stagePick = 3;
                     startStage(2);
                     welcomeScr();
                     break;
                 }
-                else if(stagePick == 52)
+                else if(in2 == 52)
                 {
                     welcomeScr();
                     break;
@@ -196,117 +198,134 @@ void Game::startStage(int in)
 {
     Stage *stage = new Stage(in);
     vector<string> bird = stage->getBird();
-    int speed = 10;
-    int angle = 30;
-    wclear(top);
-    wclear(btm);
-    box(top, 0, 0);
-    box(btm, 0, 0);
-    wrefresh(top);
-    wrefresh(btm);
+    do{
+        speed = 10;
+        angle = 30;
+        wclear(top);
+        wclear(btm);
+        box(top, 0, 0);
+        box(btm, 0, 0);
+        wrefresh(top);
+        wrefresh(btm);
 
-    for(int i = 0; i < bird.size(); i++)
-    {
-        mvwaddstr(top, 27+i, 1, bird[i].c_str());
-        mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
-        mvwaddstr(top, 30, stage->getEnemyDistance(), "X");
-        mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
-    }
+        for(int i = 0; i < bird.size(); i++)
+        {
+            mvwaddstr(top, 27+i, 1, bird[i].c_str());
+            mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
+            mvwaddstr(top, 30, stage->getEnemyDistance(), "X");
+            mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
+        }
 
-    mvwprintw(btm, 1, 1, "Speed: %d", speed);
-    mvwprintw(btm, 2, 1, "Angle: %d", angle);
-    wrefresh(top);
-    wrefresh(btm);
+        mvwprintw(btm, 1, 1, "Speed: %d", speed);
+        mvwprintw(btm, 2, 1, "Angle: %d", angle);
+        wrefresh(top);
+        wrefresh(btm);
 
-    while(true)
-    {
-        int in = getch();
-        if(in == KEY_UP)
+        while(true)
         {
-            speed++;
-            mvwprintw(btm, 1, 1, "Speed: %d", speed);
-            wrefresh(btm);
-        }
-        else if(in == KEY_DOWN)
-        {
-            speed--;
-            mvwprintw(btm, 1, 1, "Speed: %d", speed);
-            wrefresh(btm);
-        }
-        else if(in == KEY_LEFT)
-        {
-            angle++;
-            mvwprintw(btm, 2, 1, "Angle: %d", angle);
-            wrefresh(btm);
-        }
-        else if(in == KEY_RIGHT)
-        {
-            angle--;
-            mvwprintw(btm, 2, 1, "Angle: %d", angle);
-            wrefresh(btm);
-        }
-        else if(in == 97) //bokstaven a
-        {
-            stage->setUserInput((float) speed, (float) angle, 1);
-            wrefresh(top);
-            for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
+            int in = getch();
+            if(in == KEY_UP)
             {
-                wclear(top);
-                for(int j = 0; j < bird.size(); j++){
-                        mvwaddstr(top, 27+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
-                        mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
-                        mvwaddstr(top, 30, stage->getEnemyDistance(), "X");
-                        mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
+                speed++;
+                mvwprintw(btm, 1, 1, "Speed: %d", speed);
+                wrefresh(btm);
+            }
+            else if(in == KEY_DOWN)
+            {
+                speed--;
+                mvwprintw(btm, 1, 1, "Speed: %d", speed);
+                wrefresh(btm);
+            }
+            else if(in == KEY_LEFT)
+            {
+                angle++;
+                mvwprintw(btm, 2, 1, "Angle: %d", angle);
+                wrefresh(btm);
+            }
+            else if(in == KEY_RIGHT)
+            {
+                angle--;
+                mvwprintw(btm, 2, 1, "Angle: %d", angle);
+                wrefresh(btm);
+            }
+            else if(in == 97) //bokstaven a
+            {
+                stage->setUserInput((float) speed, (float) angle, 1);
+                wrefresh(top);
+                for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
+                {
+                    wclear(top);
+                    for(int j = 0; j < bird.size(); j++){
+                            mvwaddstr(top, 27+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
+                            mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
+                            mvwaddstr(top, 30, stage->getEnemyDistance(), "X");
+                            mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
+                    }
+                    wrefresh(top);
+                    usleep(100000);
+                    //if( i!= stage->getVector_Y().size()-1) wclear(top);
                 }
-                wrefresh(top);
-                usleep(100000);
-                //if( i!= stage->getVector_Y().size()-1) wclear(top);
+                if(stage->enemyHit()){
+                    if(stage->gameOver()){
+                        wclear(top);
+                        mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
+                        mvwaddstr(top, 30, stage->getDistance_X(), "dead");
+                        mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
+                        wrefresh(top);
+                        sleep(20);
+                    }
+                    else{
+                        wclear(top);
+                        mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
+                        mvwaddstr(top, 30, stage->getDistance_X(), "-50HP");
+                        mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
+                        wrefresh(top);
+//                        sleep(5);
+    //                    startStage(stagePick);
+                    }
+                }
+    //            if(!stage->gameOver()){
+    //                wclear(top);
+    //                mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
+    //                mvwaddstr(top, 30, stage->getEnemyDistance()-7, "BKAAAAA...dead");
+    //                mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
+    //                wrefresh(top);
+    //                finish();
+    //                sleep(20);
+    //            }
+    //            else if(stage->gameOver()){
+    //                wclear(top);
+    //                mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
+    //                mvwaddstr(top, 30, stage->getEnemyDistance()-2, "-50HP");
+    //                mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
+    //                wrefresh(top);
+    //                sleep(20);
+    ////                delete stage;
+    //                startStage(stagePick);
+    //            }
+                else
+                    break;
+    //                else
+    //                    break;
+
+    //            do{
+    //                stage->setUserInput((float) speed, (float) angle, 1);
+    //                for(int i = 0; i < stage->getVector_Y().size(); i++)
+    //                {
+    //                        mvwprintw(top, stage->getVector_Y().at(i)+30, i+2, "Angle: %d", angle);
+    //                        wrefresh(top);
+    //                        usleep(100000);
+    //                        if( i!= stage->getVector_Y().size()-1) wclear(top);
+    //                }
+    //            }while(!stage->gameCheck());
+
             }
-//                if(!stage->gameCheck()){
-////                    mvwaddstr(top, 30+5, 3+2, "BKAAA");
-////                    wrefresh(top);
-//                }
-            if(!stage->gameOver()){
-                wclear(top);
-                mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
-                mvwaddstr(top, 30, stage->getEnemyDistance()-7, "BKAAAAA...dead");
-                mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
-                wrefresh(top);
-                finish();
-                sleep(20);
-            }
-            else if(stage->gameOver()){
-                wclear(top);
-                mvwaddstr(top, 30, stage->getEnemyDistance()-5, "[");
-                mvwaddstr(top, 30, stage->getEnemyDistance()-2, "-50HP");
-                mvwaddstr(top, 30, stage->getEnemyDistance()+5, "]");
-                wrefresh(top);
-                sleep(20);
-//                delete stage;
-                startStage(stagePick);
-            }
-            else
+            else if(in == KEY_F(1))
+            {
                 break;
-//                else
-//                    break;
-
-//            do{
-//                stage->setUserInput((float) speed, (float) angle, 1);
-//                for(int i = 0; i < stage->getVector_Y().size(); i++)
-//                {
-//                        mvwprintw(top, stage->getVector_Y().at(i)+30, i+2, "Angle: %d", angle);
-//                        wrefresh(top);
-//                        usleep(100000);
-//                        if( i!= stage->getVector_Y().size()-1) wclear(top);
-//                }
-//            }while(!stage->gameCheck());
-
+            }
         }
-        else if(in == KEY_F(1))
-        {
-            break;
-        }
-    }
+    }while(!stage->gameOver());
     delete stage;
     welcomeScr();
     wrefresh(top);

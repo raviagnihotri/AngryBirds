@@ -34,27 +34,46 @@ void Stage::setUserInput(float s, float a, float h){
     engine();
 }
 
-bool Stage::gameOver(){
+bool Stage::enemyHit(){
     int ceil_distanceX = ceil(distance_X);
-    if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX > getEnemyDistance()-5)){
-        enemyObject->updateEnemyHP();
-        if(enemyCheck()){
-            return true;
-        }
+    if(ceil_distanceX <= getEnemyDistance() && ceil_distanceX > getEnemyDistance()-5){
+        if(enemyObject->getEnemyHP() != 0)
+            enemyObject->updateEnemyHP();
+        return true;
+    }
+    else if(ceil_distanceX > getEnemyDistance() && ceil_distanceX <= getEnemyDistance()+5){
+        if(enemyObject->getEnemyHP() != 0)
+            enemyObject->updateEnemyHP();
+        return true;
+    }
 
-    }
-    else if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX < getEnemyDistance()+5)){
-        enemyObject->updateEnemyHP();
-        if(enemyCheck()){
-            return true;
-        }
-    }
     return false;
 }
 
-bool Stage::enemyCheck(){
-        return enemyObject->getEnemyHP() == 0? false : true;
+bool Stage::gameOver(){
+//        return enemyObject->getEnemyHP() == 0? false : true;
+    if(enemyObject->getEnemyHP() == 0)
+        return true;
+    return false;
 }
+//    if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX > getEnemyDistance()-5)){
+//        enemyObject->updateEnemyHP();
+//        if(enemyCheck()){
+//            return true;
+//        }
+//
+//    }
+//    else if(((ceil_distanceX <= getEnemyDistance()) || (ceil_distanceX > getEnemyDistance())) && (ceil_distanceX < getEnemyDistance()+5)){
+//        enemyObject->updateEnemyHP();
+//        if(enemyCheck()){
+//            return true;
+//        }
+//    }
+//    return false;
+
+//bool Stage::enemyCheck(){
+//        return enemyObject->getEnemyHP() == 0? false : true;
+//}
 
 int Stage::getEnemyDistance(){
     return enemyDistance;
@@ -87,14 +106,18 @@ void Stage::engine(){
 //    cout << "Totaltime: " << totalTime << endl;
 }
 
+int Stage::getDistance_X(){
+    return ceil(distance_X);
+}
+
 vector<string> Stage::getBird()
 {
     vector<string> bird(5);
-    bird[0] = "     /^``^\\";
-    bird[1] = "   \\/   \\_/\\";
-    bird[2] = "  --1 .  00|";
-    bird[3] = "   /1    ->|";
-    bird[4] = "     \\_____/";
+    bird[0] = "   /^``^\\";
+    bird[1] = " \\/   \\_/\\";
+    bird[2] = "--1 .  00|";
+    bird[3] = " /1    ->|";
+    bird[4] = "   \\_____/";
     return bird;
 }
 
