@@ -117,6 +117,7 @@ void Game::helpText()
 
 int Game::randomNumber(int s)
 {
+    srand(time(0));
     return (rand()%s);
 }
 
@@ -204,6 +205,7 @@ void Game::welcomeScr()
 
     int tmpspeed = 0;
     int tmpangle = 0;
+    int ranstart = 0;
 
     int key;
     nodelay(stdscr, TRUE);
@@ -212,7 +214,7 @@ void Game::welcomeScr()
 
     while(true)
     {
-        int ranstart = randomNumber(100)+2;
+        ranstart = randomNumber(100)+2;
         tmpspeed = randomNumber(15)+15;
         tmpangle = randomNumber(70)+10;
 
@@ -264,7 +266,7 @@ void Game::welcomeScr()
     //Printe ut menyen
     mvwaddstr(btm,0,1, "Meny");
     mvwaddstr(btm,1,1, "1. Start spill");
-    mvwaddstr(btm,2,1, "2. Endre på noe");
+//    mvwaddstr(btm,2,1, "2. Endre på noe");
     mvwaddstr(btm,3,1, "3. Hjelp");
     mvwaddstr(btm,4,1, "4. Avslutt");
 
@@ -283,6 +285,7 @@ void Game::userInput()
         int in = getch();
         if(in == 49) //Nytt spill
         {
+            createRandomEnemyDistance = randomNumber(65)+topx-65;
             wclear(btm);
             box(btm, 0, 0);
             mvwaddstr(btm,0,1, "Select stage:");
@@ -355,7 +358,8 @@ void Game::userInput()
 
 void Game::startStage(int in)
 {
-    Stage *stage = new Stage(in, enemydis);
+//    createRandomEnemyDistance = randomNumber(65)+topx-65;
+    Stage *stage = new Stage(in, createRandomEnemyDistance);
     vector<string> bird = stage->getBird();
     vector<string> enemy = stage->getEnemy();
     atgrass = ((topy-2)-bird.size()); //bakkenivå
@@ -538,7 +542,7 @@ void Game::finish()
     //Printe ut menyen
     mvwaddstr(btm,0,1, "Meny");
     mvwaddstr(btm,1,1, "1. Start spill");
-    mvwaddstr(btm,2,1, "2. Endre på noe");
+//    mvwaddstr(btm,2,1, "2. Endre på noe");
     mvwaddstr(btm,3,1, "3. Hjelp");
     mvwaddstr(btm,4,1, "4. Avslutt");
     wrefresh(btm);

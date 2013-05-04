@@ -28,6 +28,7 @@ class Game
         int atgrass;
         int speed;
         int angle;
+        int createRandomEnemyDistance;
 };
 
 #endif // GAME_H
