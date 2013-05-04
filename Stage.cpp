@@ -42,6 +42,7 @@ void Stage::setUserInput(float s, float a, float h){
 //Håndterer når man treffer eller bommer på enemy
 bool Stage::enemyHit(){
     int ceil_distanceX = ceil(distance_X);
+    //Dersom fuglen lander eksakt 140m
     if(ceil_distanceX == getEnemyDistance()){
         headShot = true;
         if(enemyObject->getHP() != 0){
@@ -49,11 +50,13 @@ bool Stage::enemyHit(){
         }
         return true;
     }
+    //Dersom fuglen lander mellom 135 og 140m
     if(ceil_distanceX < getEnemyDistance() && ceil_distanceX > getEnemyDistance()-5){
         if(enemyObject->getHP() != 0)
             enemyObject->sideShot();
         return true;
     }
+    //Dersom fuglen lander mellom 140 og 145m
     else if(ceil_distanceX > getEnemyDistance() && ceil_distanceX < getEnemyDistance()+5){
         if(enemyObject->getHP() != 0)
             enemyObject->sideShot();
