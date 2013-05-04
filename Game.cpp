@@ -194,10 +194,11 @@ void Game::welcomeScr()
 
     int key;
     nodelay(stdscr, TRUE);
+    mvwaddstr(btm,1,1, "Trykk en tast for å begynne! (om du har gjort det, må du vente til fuglen har landet");
+    wrefresh(btm);
 
     while(true)
     {
-        mvwaddstr(btm,1,1, "Trykk en tast for å begynne!");
         tmpspeed = randomNumber(35);
         tmpangle = randomNumber(70);
 
@@ -233,46 +234,7 @@ void Game::welcomeScr()
             break;
         }
     }
-    mvwaddstr(btm,1,1, "Trykk en tast for å begynne! (om du har gjort det, må du vente til fuglen har landet");
-    wrefresh(btm);
 
-    while(true)
-    {
-        int ranstart = randomNumber(70);
-        tmpspeed = randomNumber(27);
-        tmpangle = randomNumber(70);
-
-        Stage *stage = new Stage(randomNumber(2)+1);
-        vector<string> bird = stage->getBird();
-
-        if(key = getch() == ERR)
-        {
-            stage->setUserInput((float) tmpspeed, (float) tmpangle, 1); //regner ut bane/trajectory
-            int atgrass = ((topy-2)-bird.size()); //bakkenivå
-            for(int i = 0; i < (int) stage->getVector_Y().size(); i++)
-            {
-                wclear(top);
-
-                wattron(top, A_BOLD | COLOR_PAIR(1));
-                //Printe ut logoen i midten
-                for(int j = 0; j < logo.size(); j++)
-                    mvwaddstr(top,j+9,(topx-55)/2, logo[j].c_str());
-                wattroff(top, COLOR_PAIR(1));
-
-                for(int k = 0; k < bird.size(); k++)
-                    mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+k, i+ranstart, bird[k].c_str());
-                printScenery();
-                wrefresh(top);
-                usleep(60000);
-            }
-            delete stage;
-        }
-        else
-        {
-            delete stage;
-            break;
-        }
-    }
     wclear(top);
     wclear(btm);
     box(top, 0, 0);
@@ -513,7 +475,7 @@ void Game::startStage(int in)
                     //GAME OVER logo
                     wclear(top);
                     printScenery();
-                    for(int j = 0; j < hs.size(); j++)
+                    for(int j = 0; j < go.size(); j++)
                         mvwaddstr(top,j+9,(topx-55)/2, go[j].c_str());
                     for(int j = 0; j < enemy.size(); j++)
                     {

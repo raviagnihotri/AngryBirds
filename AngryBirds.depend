@@ -1,14 +1,14 @@
 # depslib dependency file v1.0
-1367426836 source:/home/ravi/AngryBirds/Bird.cpp
+1367669092 source:/home/ravi/AngryBirds/Bird.cpp
 	"Bird.h"
 
-1367426836 /home/ravi/AngryBirds/Bird.h
+1367669092 /home/ravi/AngryBirds/Bird.h
 
-<<<<<<< HEAD
-1367584847 source:/home/ravi/AngryBirds/Game.cpp
-=======
+1367591304 D
+
 1367591304 source:/home/ravi/AngryBirds/Game.cpp
->>>>>>> ceec1b1d6003bcc65701d68b65ae7c5beeaf466c
+
+1367591583 c1b1d6003bcc65701d68b65ae7c5beeaf466c
 	<iostream>
 	"Game.h"
 	"Stage.h"
@@ -18,24 +18,19 @@
 	<time.h>
 	<sstream>
 	<cstdlib>
+	"Stage.h"
+	"Bird.h"
+	"Enemy.h"
+	<iostream>
+	<cmath>
 
-<<<<<<< HEAD
-1367588214 /home/ravi/AngryBirds/Game.h
+1367669092 /home/ravi/AngryBirds/Game.h
 
-1367586808 /home/ravi/AngryBirds/Stage.h
+1367669092 /home/ravi/AngryBirds/Stage.h
 	<vector>
 	<string>
 
-1367586808 source:/home/ravi/AngryBirds/Stage.cpp
-=======
-1367590120 /home/ravi/AngryBirds/Game.h
-
-1367591583 /home/ravi/AngryBirds/Stage.h
-	<vector>
-	<string>
-
-1367591583 source:/home/ravi/AngryBirds/Stage.cpp
->>>>>>> ceec1b1d6003bcc65701d68b65ae7c5beeaf466c
+1367669092 source:/home/ravi/AngryBirds/Stage.cpp
 	"Stage.h"
 	"Bird.h"
 	"Enemy.h"
@@ -47,7 +42,7 @@
 1367227553 source:/home/ravi/AngryBirds/Target.cpp
 	"Target.h"
 
-1367425126 source:/home/ravi/AngryBirds/main.cpp
+1367669092 source:/home/ravi/AngryBirds/main.cpp
 	<iostream>
 	<curses.h>
 	<string.h>
@@ -68,8 +63,8 @@
 1367329768 /home/ravi/AngryBirds/FysikkMotor.h
 	<vector>
 
-1367586807 source:/home/ravi/AngryBirds/Enemy.cpp
+1367669092 source:/home/ravi/AngryBirds/Enemy.cpp
 	"Enemy.h"
 
-1367586807 /home/ravi/AngryBirds/Enemy.h
+1367669092 /home/ravi/AngryBirds/Enemy.h
 
