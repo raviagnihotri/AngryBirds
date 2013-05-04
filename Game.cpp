@@ -23,6 +23,8 @@ vector<string> sun(7);
 vector<string> hs(5);
 vector<string> ns(5);
 vector<string> go(5);
+vector<string> hits(5);
+vector<string> won(5);
 vector<string> text(11);
 
 void Game::initLogo()
@@ -88,6 +90,22 @@ void Game::gameOver(){
     go[2] = "| |  _  / _ \\ | |\\/| |  _|   | | | \\ \\ / /|  _| | |_) |";
     go[3] = "| |_| |/ ___ \\| |  | | |___  | |_| |\\ \V / | |___|  _ < ";
     go[4] = " \\____/_/   \\_\\_|  |_|_____|  \\___/  \\_/  |_____|_| \\_\\";
+}
+
+void Game::hit(){
+    hits[0] = "   _  _     _   _  ___  _____     _  _   ";
+    hits[1] = " _| || |_  | | | ||_ _||_   _|  _| || |_ ";
+    hits[2] = "|_  ..  _| | |_| | | |   | |   |_  ..  _|";
+    hits[3] = "|_      _| |  _  | | |   | |   |_      _|";
+    hits[4] = "  |_||_|   |_| |_||___|  |_|     |_||_| ";
+}
+
+void Game::win(){
+    won[0] = "__   __ ___   _   _  __        __ ___   _   _      ____  ";
+    won[1] = "\\ \\ / // _ \\ | | | | \\ \\      / // _ \\ | \\ | |  _ |  _ \\ ";
+    won[2] = " \\ \V /| | | || | | |  \\ \\ /\\ / /| | | ||  \\| | (_)| | | |";
+    won[3] = "  | | | |_| || |_| |   \\ \V  \V / | |_| || |\\  |  _ | |_| |";
+    won[4] = "  |_|  \\___/  \\___/     \\_/\\_/   \\___/ |_| \\_| (_)|____/ ";
 }
 
 void Game::helpText()
@@ -182,6 +200,8 @@ void Game::welcomeScr()
     headShot();
     noobShot();
     gameOver();
+    hit();
+    win();
     helpText();
     wattroff(top, A_BOLD);
     wclear(top);
@@ -427,7 +447,11 @@ void Game::startStage(int in)
                             mvwaddstr(top,j+9,(topx-55)/2, hs[j].c_str());
                     }
                     else{
-                        //print ut DEADlogo
+                        //print ut winLogo
+                        wclear(top);
+                        printScenery();
+                        for(int j = 0; j < won.size(); j++)
+                            mvwaddstr(top,j+9,(topx-55)/2, won[j].c_str());
                         for(int j = 0; j < enemy.size(); j++)
                         {
                             if(j == 3) enemy[3] = "<| -DEAD |>";
@@ -442,7 +466,9 @@ void Game::startStage(int in)
                 else{
                     wclear(top);
                     printScenery();
-                    //print ut noobshot logo
+                    //printer ut hit logo
+                    for(int j = 0; j < hits.size(); j++)
+                        mvwaddstr(top,j+9,(topx-55)/2, hits[j].c_str());
                     for(int j = 0; j < enemy.size(); j++)
                     {
                         if(j == 3) enemy[3] = "<| -50HP |>";

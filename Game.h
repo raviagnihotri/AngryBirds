@@ -10,6 +10,8 @@ class Game
         void headShot();
         void noobShot();
         void gameOver();
+        void hit();
+        void win();
         void helpText();
         int randomNumber(int s);
         void printScenery();
