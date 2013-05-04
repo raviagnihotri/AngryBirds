@@ -9,9 +9,10 @@ using namespace std;
     Bird *birdObject;
     Enemy *enemyObject = new Enemy();
 
-Stage::Stage(int st)
+Stage::Stage(int st, int ed)
 {
     stage = st;
+    enemyDistance = ed;
     setupStage();
     birdObject = new Bird();
     headShot = false;

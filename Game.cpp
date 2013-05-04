@@ -7,12 +7,14 @@
 #include <time.h>
 #include <sstream>
 #include <cstdlib>
+#include <algorithm>
 
 using namespace std;
 
 int bird;
 int target;
 float gravity;
+int enemydis;
 
 WINDOW * top;
 WINDOW * btm;
@@ -61,11 +63,6 @@ void Game::headShot()
     hs[2] = "| |_| |  _|   / _ \\ | | | | \\___ \\| |_| | | | || |  ";
     hs[3] = "|  _  | |___ / ___ \\| |_| |  ___) |  _  | |_| || | ";
     hs[4] = "|_| |_|_____/_/   \\_\\____/  |____/|_| |_|\\___/ |_| ";
-//    hs[0] = "              ____                                                                           ______                 ";
-//    hs[1] = " |         | |                  .'.       |``````.                     ..'''' |         |  .~      ~.  `````|`````  ";
-//    hs[2] = " |_________| |______          .''```.     |       |                 .''       |_________| |          |      |       ";
-//    hs[3] = " |         | |              .'       `.   |       |              ..'          |         | |          |      |       ";
-//    hs[4] = " |         | |___________ .'           `. |......'         ....''             |         |  `.______.'       |       ";
 }
 
 void Game::noobShot()
@@ -75,11 +72,6 @@ void Game::noobShot()
     ns[2] = "|  \\| | | | | | | |  _ \\  \\___ \\| |_| | | | || |  ";
     ns[3] = "| |\\  | |_| | |_| | |_) |  ___) |  _  | |_| || | ";
     ns[4] = "|_| \\_|\\___/ \\___/|____/  |____/|_| |_|\\___/ |_| ";
-//    ns[0] = "                   ______       ______     ____                                               ______                 ";
-//    ns[1] = " |..          |  .~      ~.   .~      ~.  |    ~.                       ..'''' |         |  .~      ~.  `````|`````  ";
-//    ns[2] = " |  ``..      | |          | |          | |____.'_                   .''       |_________| |          |      |       ";
-//    ns[3] = " |      ``..  | |          | |          | |       ~.              ..'          |         | |          |      |       ";
-//    ns[4] = " |          ``|  `.______.'   `.______.'  |_______.'        ....''             |         |  `.______.'       |  ";
 }
 
 void Game::gameOver(){
@@ -96,7 +88,7 @@ void Game::helpText()
     text[1] = "==========================================================================================================";
     text[2] = "1. Du velger først et brett/en planet";
     text[3] = "2. Deretter bruker du piltastene til å sette ønsket fart og vinkel på fuglen";
-    text[4] = "3. Trykk 'A' for å slippe løs fuglen";
+    text[4] = "3. Trykk 'a' for å slippe løs fuglen";
     text[5] = "4. Se fuglens praktfulle ferd mot den stygge nerden";
     text[6] = "5. Om du treffer rett i knollen på nerden, dreper du han umiddelbart";
     text[7] = "   Treffer du ved siden av mister nerden 50 Health Points";
@@ -125,12 +117,13 @@ void Game::printScenery()
     for(int i = 1; i < topx-1; i++)
         mvwaddstr(top,topy-2,i, "|");
 
-    for(int i = 1; i < 15; i++)
+    for(int i = 1; i < topx-1; i+=8)
     {
         wattron(top, A_BOLD | COLOR_PAIR(8+(i%3)));
-        mvwaddstr(top,topy-3,randomNumber(topx-1), "*");
+        mvwaddstr(top,topy-3,i, "*");
     }
     wattroff(top, COLOR_PAIR(4));
+    wrefresh(top);
 }
 
 void Game::initScreen()
@@ -194,15 +187,16 @@ void Game::welcomeScr()
 
     int key;
     nodelay(stdscr, TRUE);
-    mvwaddstr(btm,1,1, "Trykk en tast for å begynne! (om du har gjort det, må du vente til fuglen har landet");
+    mvwaddstr(btm,1,1, "Trykk en tast for å begynne! (om du har gjort det, må du vente til fuglen har landet)");
     wrefresh(btm);
 
     while(true)
     {
-        tmpspeed = randomNumber(35);
-        tmpangle = randomNumber(70);
+        int ranstart = randomNumber(100)+2;
+        tmpspeed = randomNumber(15)+15;
+        tmpangle = randomNumber(70)+10;
 
-        Stage *stage = new Stage(randomNumber(2)+1);
+        Stage *stage = new Stage(randomNumber(2)+1, 1);
         vector<string> bird = stage->getBird();
 
         if(key = getch() == ERR)
@@ -216,15 +210,14 @@ void Game::welcomeScr()
                 wattron(top, A_BOLD | COLOR_PAIR(1));
                 //Printe ut logoen i midten
                 for(int i = 0; i < logo.size(); i++)
-                    mvwaddstr(top,i+9,(topx-200)/2, logo[i].c_str());
-//                    mvwaddstr(top,i+9,(topx-55)/2, logo[i].c_str());
+                    mvwaddstr(top,i+9,(topx-55)/2, logo[i].c_str());
                 wattroff(top, COLOR_PAIR(1));
 
                 for(int j = 0; j < bird.size(); j++)
-                    mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+j, i+2, bird[j].c_str());
+                    mvwaddstr(top, atgrass+stage->getVector_Y().at(i)+j, i+ranstart, bird[j].c_str());
                 printScenery();
                 wrefresh(top);
-                speed > 30 ? usleep(100000 * (1+((speed-30))/100)) : usleep(100000);
+                usleep(60000);
             }
             delete stage;
         }
@@ -299,7 +292,7 @@ void Game::userInput()
                 else if(in2 == 51)
                 {
                     stagePick = 3;
-                    startStage(2);
+                    startStage(3);
                     welcomeScr();
                     break;
                 }
@@ -342,7 +335,7 @@ void Game::userInput()
 
 void Game::startStage(int in)
 {
-    Stage *stage = new Stage(in);
+    Stage *stage = new Stage(in, enemydis);
     vector<string> bird = stage->getBird();
     vector<string> enemy = stage->getEnemy();
     atgrass = ((topy-2)-bird.size()); //bakkenivå
@@ -365,6 +358,8 @@ void Game::startStage(int in)
 
     mvwprintw(btm, 1, 1, "Speed: %d", speed);
     mvwprintw(btm, 2, 1, "Angle: %d", angle);
+    mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
+    mvwprintw(btm, 4, 1, "Distance to enemy: %d", stage->getEnemyDistance());
     wrefresh(top);
     wrefresh(btm);
 
@@ -402,6 +397,8 @@ void Game::startStage(int in)
         else if(in == 97){ //Liftoff!
             wclear(top);
             printScenery();
+            mvwprintw(btm, 3, 1, "                ");
+            mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
             stage->setUserInput((float)speed, (float)angle, 1);
             for(int i = 0; i < (int)stage->getVector_Y().size(); i++)
             {
@@ -413,7 +410,8 @@ void Game::startStage(int in)
                     mvwaddstr(top, atgrass+k, stage->getEnemyDistance()-6, enemy[k].c_str());
                 }
                 wrefresh(top);
-                speed > 30 ? usleep(100000 * (1+((speed-30))/100)) : usleep(100000);
+                wrefresh(btm);
+                speed > 30 ? usleep(100000 * (1+((speed-30))/100)) : usleep(100000); //litt rar?
                 //if( i!= stage->getVector_Y().size()-1) wclear(top);
             }
 
@@ -421,6 +419,8 @@ void Game::startStage(int in)
                 if(stage->gameOver()){
                     wclear(top);
                     printScenery();
+                    mvwprintw(btm, 3, 1, "                ");
+                    mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
                     if(stage->getHeadshot()){
                         //print ut headshotlogo
                         for(int j = 0; j < hs.size(); j++)
@@ -433,8 +433,11 @@ void Game::startStage(int in)
                             if(j == 3) enemy[3] = "<| -DEAD |>";
                             mvwaddstr(top, atgrass+j, stage->getEnemyDistance()-6, enemy[j].c_str());
                         }
+                        mvwprintw(btm, 3, 1, "                ");
+                        mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
                     }
                     wrefresh(top);
+                    wrefresh(btm);
                     stage->resetEnemyHP();
                     delete stage;
                     finish();
@@ -442,6 +445,8 @@ void Game::startStage(int in)
                 else{
                     wclear(top);
                     printScenery();
+                    mvwprintw(btm, 3, 1, "                ");
+                    mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
                     //print ut noobshot logo
                     for(int j = 0; j < enemy.size(); j++)
                     {
@@ -449,7 +454,8 @@ void Game::startStage(int in)
                         mvwaddstr(top, atgrass+j, stage->getEnemyDistance()-6, enemy[j].c_str());
                     }
                     wrefresh(top);
-                    sleep(1);
+                    wrefresh(btm);
+                    sleep(2);
                     delete stage;
                     startStage(stagePick);
                 }
@@ -467,7 +473,7 @@ void Game::startStage(int in)
                         mvwaddstr(top, atgrass+j, stage->getEnemyDistance()-6, enemy[j].c_str());
                     }
                     wrefresh(top);
-                    sleep(1);
+                    sleep(2);
                     delete stage;
                     startStage(stagePick);
                 }
@@ -475,14 +481,17 @@ void Game::startStage(int in)
                     //GAME OVER logo
                     wclear(top);
                     printScenery();
+                    mvwprintw(btm, 3, 1, "                ");
+                    mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
                     for(int j = 0; j < go.size(); j++)
                         mvwaddstr(top,j+9,(topx-55)/2, go[j].c_str());
                     for(int j = 0; j < enemy.size(); j++)
                     {
-                        if(j == 3) enemy[3] = "<| -MISS |>";
+                        if(j == 3) enemy[3] = "<| -HAHA! |>";
                         mvwaddstr(top, atgrass+j, stage->getEnemyDistance()-6, enemy[j].c_str());
                     }
                     wrefresh(top);
+                    wrefresh(btm);
                     stage->resetEnemyHP();
                     delete stage;
                     finish();
@@ -493,7 +502,10 @@ void Game::startStage(int in)
     delete stage;
 }
 
-void Game::finish(){
+void Game::finish()
+{
+    while( enemydis < topx-15 )
+        enemydis = randomNumber(65)+topx-65;
     wclear(btm);
     box(btm, 0, 0);
     //Printe ut menyen
@@ -517,6 +529,8 @@ Game::Game()
     box(btm, 0, 0);
 
     welcomeScr();
+    while( enemydis < topx-15 )
+        enemydis = randomNumber(65)+topx-65;
     wrefresh(top);
     wrefresh(btm);
 

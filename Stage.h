@@ -7,7 +7,7 @@ using namespace std;
 class Stage
 {
     public:
-        Stage(int); //hvilket stage
+        Stage(int, int); //hvilket stage og random startposition for enemy
         virtual ~Stage();//Velger tyngdekraft
         void setupStage();
         void setUserInput(float, float, float);  //speed, angle, height  --- setter fart, vinkel og høyde(ikke implementert funksjon)
@@ -25,7 +25,8 @@ class Stage
     protected:
     private:
 
-        int enemyDistance = 140;
+        void setEnemyDistance();
+        int enemyDistance;
         int stage;
         int birds;
         int targets;
