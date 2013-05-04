@@ -236,7 +236,7 @@ void Game::welcomeScr()
                 wattron(top, A_BOLD | COLOR_PAIR(1));
                 //Printe ut logoen i midten
                 for(int i = 0; i < logo.size(); i++)
-                    mvwaddstr(top,i+9,(topx-200)/2, logo[i].c_str());
+                    mvwaddstr(top,i+9,(topx-55)/2, logo[i].c_str());
 //                    mvwaddstr(top,i+9,(topx-55)/2, logo[i].c_str());
                 wattroff(top, COLOR_PAIR(1));
 
