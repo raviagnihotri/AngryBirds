@@ -33,6 +33,16 @@ Dersom programmeringen går noenlunde smertefritt, vil vi se på muligheten til 
 - ta med andre koeffisienter i formelene som f.eks. vind
 
 
+##Klassediagram
+//KlasseDiagram ligger under /Dokumentasjon/klassediagram_angrybirds.png
+Tok ikke med alle metoder og slikt i klassediagrammet.
+Klassen Bird.cpp er der for eventuelle utvidelser av programmet.
 
+##Use case
+Det første spilleren kommer til er en meny som består av 3 valg, "spill spillet", "Hjelp", "Avslutt". "Hjelp" består av en beskrivelse for spillets gang. 
+Etter at brukeren har trykket "Spill spillet", vil han får 3 valg om hvilket brett han vil spille på. 
+Hvert brett har forskjellig tyngdekraft, så vanskelighetsgraden kan variere.
+Hvert brett består av 3 liv. Spilleren mister liv kun hvis han bommer.
+	
 
 
