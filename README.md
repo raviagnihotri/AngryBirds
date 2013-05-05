@@ -44,5 +44,7 @@ Etter at brukeren har trykket "Spill spillet", vil han får 3 valg om hvilket br
 Hvert brett har forskjellig tyngdekraft, så vanskelighetsgraden kan variere.
 Hvert brett består av 3 liv. Spilleren mister liv kun hvis han bommer.
 	
-
+##Dependencies
+ - libncurses5-dev
+ - Under kompilasjon må det linkes til ncurses "g++ input -lncurses"
 
