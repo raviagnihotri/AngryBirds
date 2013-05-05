@@ -1,0 +1,2 @@
+g++ main.cpp Game.cpp Stage.cpp Enemy.cpp Bird.cpp -lncurses -o angrybirds
+echo Skriv ./angrybirds for aa starte spillet.
