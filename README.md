@@ -47,7 +47,7 @@ Hvert brett har forskjellig tyngdekraft, så vanskelighetsgraden kan variere.
 Hvert brett består av 3 liv. Spilleren mister liv kun hvis han bommer.
 	
 ##Teknisk info
-Siden spillet er bygd opp fra NCURSES er du nødt til å ha "libncurses5-dev" for å kompilere.
-Man må i tillegg linke til NCURSES ved kompilerer, "-lncurses"
+ - Siden spillet er bygd opp fra NCURSES er du nødt til å ha "libncurses5-dev" for å kompilere.
+ - Man må i tillegg linke til NCURSES ved kompilerer, "g++ -lncurses"
 
-Vi har opprettet en "make" fil for lettere kompilering. Skriv: "$./make" i terminalvinduet for kompilering
+ - Vi har opprettet en "make" fil for lettere kompilering. Skriv: "$./make" i terminalvinduet for kompilering
