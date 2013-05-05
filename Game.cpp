@@ -20,31 +20,34 @@ WINDOW * top;
 WINDOW * btm;
 int toprow, topx, topy;
 
-vector<string> logo(14);
+vector<string> logo(17);
 vector<string> sun(7);
 vector<string> hs(5);
 vector<string> ns(5);
 vector<string> go(5);
 vector<string> hits(5);
 vector<string> won(5);
-vector<string> text(11);
+vector<string> text(12);
 
 void Game::initLogo()
 {
-    logo[0] =  "    ______  __  __  ____    ____    __   __   ";
-    logo[1] = "   /\\  _  \\/\\ \\/\\ \\/\\  _`\\ /\\  _`\\ /\\ \\ /\\ \\ ";
-    logo[2] = "   \\ \\ \\L\\ \\ \\ `\\\\ \\ \\ \\L\\_\\ \\ \\L\\ \\`\\`\\\\/'/";
-    logo[3] = "    \\ \\  __ \\ \\ , ` \\ \\ \\L_L\\ \\ ,  /`\\ `\\ /'   ";
-    logo[4] = "     \\ \\ \\/\\ \\ \\ \\`\\ \\ \\ \\/, \\ \\ \\\ \\  `\\ \\ \\  ";
-    logo[5] = "      \\ \\_\\ \\_\\ \\_\\ \\_\\ \\____/\\ \\_\\ \\_\\ \\ \\_\\  ";
-    logo[6] = "       \\/_/\\/_/\\/_/\\/_/\\/___/  \\/_/\\/_/  \\/_/ ";
-    logo[7] = "          __  __  ____    ____    ____    ____         ";
-    logo[8] = "         /\\ \\/\\ \\/\\  _`\\ /\\  _`\\ /\\  _`\\ /\\  _`\\       ";
-    logo[9] = "         \\ \\ `\\\\ \\ \\ \\L\\_\\ \\ \\L\\ \\ \\ \\/\\ \\ \\,\\L\\_\\     ";
-    logo[10] = "          \\ \\ , ` \\ \\  _\\L\\ \\ ,  /\\ \\ \\ \\ \\/_\\__ \\     ";
-    logo[11] = "           \\ \\ \\`\\ \\ \\ \\L\\ \\ \\ \\\\ \\\\ \\ \\_\\ \\/\\ \\L\\ \\   ";
-    logo[12] = "            \\ \\_\\ \\_\\ \\____/\\ \\_\\ \\_\\ \\____/\\ `\\____\\  ";
-    logo[13] = "             \\/_/\\/_/\\/___/  \\/_/\\/ /\\/___/  \\/_____/  ";
+logo[0] = "  _______  _        _______  _______           ";
+logo[1] = " (  ___  )( (    /|(  ____ \\(  ____ )|\\     /| ";
+logo[2] = " | (   ) ||  \\  ( || (    \\/| (    )|( \\   / ) ";
+logo[3] = " | (___) ||   \\ | || |      | (____)| \\ (_) /  ";
+logo[4] = " |  ___  || (\\ \\) || | ____ |     __)  \\   /   ";
+logo[5] = " | (   ) || | \\   || | \\_  )| (\\ (      ) (    ";
+logo[6] = " | )   ( || )  \\  || (___) || ) \\ \\__   | |    ";
+logo[7] = " |/     \\||/    )_)(_______)|/   \\__/   \\_/    ";
+logo[8] = "                                               ";
+logo[9] = "  ______  _________ _______  ______   _______  ";
+logo[10] = " (  ___ \\ \\__   __/(  ____ )(  __  \\ (  ____ \\ ";
+logo[11] = " | (   ) )   ) (   | (    )|| (  \\  )| (    \\/ ";
+logo[12] = " | (__/ /    | |   | (____)|| |   ) || (_____  ";
+logo[13] = " |  __ (     | |   |     __)| |   | |(_____  ) ";
+logo[14] = " | (  \\ \\    | |   | (\\ (   | |   ) |      ) | ";
+logo[15] = " | )___) )___) (___| ) \\ \\__| (__/  )/\\____) | ";
+logo[16] = " |/ \\___/ \\_______/|/   \\__/(______/ \\_______) ";
 }
 
 void Game::initSun()
@@ -102,17 +105,18 @@ void Game::win(){
 
 void Game::helpText()
 {
-    text[0] = "Velkommen til Angry Nerds - spillet som er en skamfull rip-off av det mindre kjente spillet Angry...Birds.";
+    text[0] = "Velkommen til Angry Birds - spillet som er en skamfull rip-off av det mindre kjente spillet Angry...Birds.";
     text[1] = "==========================================================================================================";
     text[2] = "1. Du velger først et brett/en planet";
     text[3] = "2. Deretter bruker du piltastene til å sette ønsket fart og vinkel på fuglen";
-    text[4] = "3. Trykk 'a' for å slippe løs fuglen";
+    text[4] = "3. Trykk 'a' for å slippe den løs";
     text[5] = "4. Se fuglens praktfulle ferd mot den stygge nerden";
     text[6] = "5. Om du treffer rett i knollen på nerden, dreper du han umiddelbart";
-    text[7] = "   Treffer du ved siden av mister nerden 50 Health Points";
+    text[7] = "   Treffer du nerden mister han 50 Health Points";
     text[8] = "   Bommer du...da har du bommet";
-    text[9] = "";
-    text[10] = "--Trykk en tast for å se den fine fuglen fly--";
+    text[9] = "- Du får maks tre forsøk på å drepe nerden -";
+    text[10] = "";
+    text[11] = "--Trykk en tast for å se den fine fuglen fly--";
 }
 
 int Game::randomNumber(int s)
@@ -210,9 +214,10 @@ void Game::welcomeScr()
     int key;
     nodelay(stdscr, TRUE);
     mvwaddstr(btm,1,1, "Trykk en tast for å begynne! (om du har gjort det, må du vente til fuglen har landet)");
+    mvwaddstr(btm,7,1, "Et spill utviklet av Ravi Agnihotri og Andreas Baaserud ifm. emnet \"Effektiv kode med C og C++\" våren 2013");
     wrefresh(btm);
 
-    while(true)
+    while(true) //oppstartsskjerm, printer ut en fugl som flyr fra tilfeldige startpunkter til bruker trykker på en tast
     {
         ranstart = randomNumber(100)+2;
         tmpspeed = randomNumber(15)+15;
@@ -266,9 +271,8 @@ void Game::welcomeScr()
     //Printe ut menyen
     mvwaddstr(btm,0,1, "Meny");
     mvwaddstr(btm,1,1, "1. Start spill");
-//    mvwaddstr(btm,2,1, "2. Endre på noe");
-    mvwaddstr(btm,3,1, "3. Hjelp");
-    mvwaddstr(btm,4,1, "4. Avslutt");
+    mvwaddstr(btm,2,1, "2. Hjelp");
+    mvwaddstr(btm,3,1, "3. Avslutt");
 
     wrefresh(top);
     wrefresh(btm);
@@ -288,50 +292,45 @@ void Game::userInput()
             createRandomEnemyDistance = randomNumber(65)+topx-65;
             wclear(btm);
             box(btm, 0, 0);
-            mvwaddstr(btm,0,1, "Select stage:");
-            mvwaddstr(btm,1,1, "1 - The Earth  (Regular gravity)");
-            mvwaddstr(btm,2,1, "2 - The Moon  (Low gravity)");
-            mvwaddstr(btm,3,1, "3 - Jupiter  (High gravity)");
-            mvwaddstr(btm,4,1, "4 - Abort");
+            mvwaddstr(btm,0,1, "Velg et brett:");
+            mvwaddstr(btm,1,1, "1 - Jorden  (Vanlig gravitasjon)");
+            mvwaddstr(btm,2,1, "2 - Månen  (Lav gravitasjon)");
+            mvwaddstr(btm,3,1, "3 - Jupiter  (Høy gravitasjon)");
+            mvwaddstr(btm,4,1, "4 - Avbryt");
             wrefresh(btm);
 
             while(true)
             {
                 int in2 = getch();
-                if(in2 == 49)
+                if(in2 == 49) //tallet 1
                 {
                     stagePick = 1;
                     startStage(1);
                     welcomeScr();
                     break;
                 }
-                else if(in2 == 50)
+                else if(in2 == 50) //tallet 2
                 {
                     stagePick = 2;
                     startStage(2);
                     welcomeScr();
                     break;
                 }
-                else if(in2 == 51)
+                else if(in2 == 51) //tallet 3
                 {
                     stagePick = 3;
                     startStage(3);
                     welcomeScr();
                     break;
                 }
-                else if(in2 == 52)
+                else if(in2 == 52) //tallet 4
                 {
                     welcomeScr();
                     break;
                 }
             }
         }
-        else if(in == 50) //Settings
-        {
-            // Settings?
-
-        }
-        else if(in == 51) //Hjelp
+        else if(in == 50) //Hjelp
         {
             wclear(top);
             printScenery();
@@ -345,11 +344,13 @@ void Game::userInput()
             getch();
             welcomeScr();
             break;
+
         }
-        else if(in == 52) //Avslutt
+        else if(in == 51) //Avslutt
         {
             exit = true;
             break;
+
         }
     }
     if(!exit) userInput();
@@ -380,10 +381,10 @@ void Game::startStage(int in)
     }
     printScenery();
 
-    mvwprintw(btm, 1, 1, "Speed: %d", speed);
-    mvwprintw(btm, 2, 1, "Angle: %d", angle);
-    mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
-    mvwprintw(btm, 4, 1, "Distance to enemy: %d", stage->getEnemyDistance());
+    mvwprintw(btm, 1, 1, "Fart: %d", speed);
+    mvwprintw(btm, 2, 1, "Vinkel: %d", angle);
+    mvwprintw(btm, 3, 1, "Nerdens HP: %d", stage->getEnemyHP());
+    mvwprintw(btm, 4, 1, "Avstand til nerden: %d", stage->getEnemyDistance());
     wrefresh(top);
     wrefresh(btm);
 
@@ -394,35 +395,35 @@ void Game::startStage(int in)
         {
             mvwprintw(btm, 1, 1, "                ");
             if(speed < 200) speed++;
-            mvwprintw(btm, 1, 1, "Speed: %d", speed);
+            mvwprintw(btm, 1, 1, "Fart: %d", speed);
             wrefresh(btm);
         }
         else if(in == KEY_DOWN) //...ned
         {
             mvwprintw(btm, 1, 1, "                ");
             if(speed > 1) speed--;
-            mvwprintw(btm, 1, 1, "Speed: %d", speed);
+            mvwprintw(btm, 1, 1, "Fart: %d", speed);
             wrefresh(btm);
         }
         else if(in == KEY_RIGHT) //Juster vinkel opp
         {
             mvwprintw(btm, 2, 1, "                ");
             if(angle < 90) angle++;
-            mvwprintw(btm, 2, 1, "Angle: %d", angle);
+            mvwprintw(btm, 2, 1, "Vinkel: %d", angle);
             wrefresh(btm);
         }
         else if(in == KEY_LEFT) //...ned
         {
             mvwprintw(btm, 2, 1, "                ");
             if(angle > 1) angle--;
-            mvwprintw(btm, 2, 1, "Angle: %d", angle);
+            mvwprintw(btm, 2, 1, "Vinkel: %d", angle);
             wrefresh(btm);
         }
         else if(in == 97){ //Liftoff!
             wclear(top);
             printScenery();
             mvwprintw(btm, 3, 1, "                ");
-            mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
+            mvwprintw(btm, 3, 1, "Nerdens HP: %d", stage->getEnemyHP());
             stage->setUserInput((float)speed, (float)angle, 1);
             for(int i = 0; i < (int)stage->getVector_Y().size(); i++)
             {
@@ -444,7 +445,7 @@ void Game::startStage(int in)
                     wclear(top);
                     printScenery();
                     mvwprintw(btm, 3, 1, "                ");
-                    mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
+                    mvwprintw(btm, 3, 1, "Nerdens HP: %d", stage->getEnemyHP());
                     if(stage->getHeadshot()){
                         //print ut headshotlogo
                         for(int j = 0; j < hs.size(); j++)
@@ -458,11 +459,11 @@ void Game::startStage(int in)
                             mvwaddstr(top,j+9,(topx-55)/2, won[j].c_str());
                         for(int j = 0; j < enemy.size(); j++)
                         {
-                            if(j == 3) enemy[3] = "<| -DEAD |>";
+                            if(j == 3) enemy[3] = "<| -DØD- |>";
                             mvwaddstr(top, atgrass+j, stage->getEnemyDistance()-6, enemy[j].c_str());
                         }
                         mvwprintw(btm, 3, 1, "                ");
-                        mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
+                        mvwprintw(btm, 3, 1, "Nerdens HP: %d", stage->getEnemyHP());
                     }
                     wrefresh(top);
                     wrefresh(btm);
@@ -475,7 +476,7 @@ void Game::startStage(int in)
                     printScenery();
 
                     mvwprintw(btm, 3, 1, "                ");
-                    mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
+                    mvwprintw(btm, 3, 1, "Nerdens HP: %d", stage->getEnemyHP());
                     //printer ut hit logo
                     for(int j = 0; j < hits.size(); j++)
                         mvwaddstr(top,j+9,(topx-55)/2, hits[j].c_str());
@@ -513,7 +514,7 @@ void Game::startStage(int in)
                     wclear(top);
                     printScenery();
                     mvwprintw(btm, 3, 1, "                ");
-                    mvwprintw(btm, 3, 1, "Enemy HP: %d", stage->getEnemyHP());
+                    mvwprintw(btm, 3, 1, "Nerdens HP: %d", stage->getEnemyHP());
                     for(int j = 0; j < go.size(); j++)
                         mvwaddstr(top,j+9,(topx-55)/2, go[j].c_str());
                     for(int j = 0; j < enemy.size(); j++)
@@ -542,9 +543,8 @@ void Game::finish()
     //Printe ut menyen
     mvwaddstr(btm,0,1, "Meny");
     mvwaddstr(btm,1,1, "1. Start spill");
-//    mvwaddstr(btm,2,1, "2. Endre på noe");
-    mvwaddstr(btm,3,1, "3. Hjelp");
-    mvwaddstr(btm,4,1, "4. Avslutt");
+    mvwaddstr(btm,2,1, "2. Hjelp");
+    mvwaddstr(btm,3,1, "3. Avslutt");
     wrefresh(btm);
     userInput();
 }

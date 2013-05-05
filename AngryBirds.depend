@@ -6,7 +6,7 @@
 
 1367591304 D
 
-1367682489 source:/home/ravi/AngryBirds/Game.cpp
+1367768400 source:/home/ravi/AngryBirds/Game.cpp
 	<iostream>
 	"Game.h"
 	"Stage.h"
@@ -34,13 +34,13 @@
 	<iostream>
 	<cmath>
 
-1367683086 /home/ravi/AngryBirds/Game.h
+1367687962 /home/ravi/AngryBirds/Game.h
 
 1367676896 /home/ravi/AngryBirds/Stage.h
 	<vector>
 	<string>
 
-1367676894 source:/home/ravi/AngryBirds/Stage.cpp
+1367683086 source:/home/ravi/AngryBirds/Stage.cpp
 	"Stage.h"
 	"Bird.h"
 	"Enemy.h"
@@ -52,12 +52,13 @@
 1367227553 source:/home/ravi/AngryBirds/Target.cpp
 	"Target.h"
 
-1367669092 source:/home/ravi/AngryBirds/main.cpp
+1367768776 source:/home/ravi/AngryBirds/main.cpp
 	<iostream>
 	<curses.h>
 	<string.h>
 	<unistd.h>
 	"Game.h"
+	<curses.h>
 
 1367404563 source:/home/ravi/AngryBirds/FysikkMotor.cpp
 	"FysikkMotor.h"
